@@ -143,6 +143,11 @@
   .ex-actions .btn { font-size: 12px; padding: 6px 10px; }
   .ex-actions .btn svg { margin-right: 4px; vertical-align: -1px; }
 
+  .alt-list { margin-top: 10px; display: grid; gap: 6px; }
+  .alt-item { border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); padding: 8px 10px; }
+  .alt-name { font-size: 13px; font-weight: 500; font-family: var(--font-heading); }
+  .alt-reason { font-size: 12px; opacity: 0.65; margin-top: 2px; line-height: 1.4; }
+
   .note-field { width: 100%; margin-top: 10px; background: var(--color-neutral-800); border: 1px solid var(--color-neutral-700); border-radius: var(--radius-md); color: var(--color-text); font-family: var(--font-body); font-size: 13px; padding: 8px 10px; min-height: 44px; resize: vertical; }
   .note-field::placeholder { color: color-mix(in srgb, var(--color-text) 38%, transparent); }
 
@@ -169,7 +174,8 @@
     plus: '<path d="M228,128a8,8,0,0,1-8,8H136v84a8,8,0,0,1-16,0V136H36a8,8,0,0,1,0-16h84V36a8,8,0,0,1,16,0v84h84A8,8,0,0,1,228,128Z"/>',
     x: '<path d="M205.66,194.34a8,8,0,0,1-11.32,11.32L128,139.31,61.66,205.66a8,8,0,0,1-11.32-11.32L116.69,128,50.34,61.66A8,8,0,0,1,61.66,50.34L128,116.69l66.34-66.35a8,8,0,0,1,11.32,11.32L139.31,128Z"/>',
     clock: '<path d="M128,24A104,104,0,1,0,232,128,104.11,104.11,0,0,0,128,24Zm8,104a8,8,0,0,1-3.31,6.5l-40,32a8,8,0,1,1-10-12.5L120,124.28V72a8,8,0,0,1,16,0Z"/>',
-    download: '<path d="M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V32a8,8,0,0,0-16,0v100.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z"/>'
+    download: '<path d="M224,152v56a16,16,0,0,1-16,16H48a16,16,0,0,1-16-16V152a8,8,0,0,1,16,0v56H208V152a8,8,0,0,1,16,0Zm-101.66,5.66a8,8,0,0,0,11.32,0l40-40a8,8,0,0,0-11.32-11.32L136,132.69V32a8,8,0,0,0-16,0v100.69L93.66,106.34a8,8,0,0,0-11.32,11.32Z"/>',
+    swap: '<path d="M213.66,181.66l-32,32a8,8,0,0,1-11.32-11.32L188.69,184H48a8,8,0,0,1,0-16H188.69l-18.35-18.34a8,8,0,0,1,11.32-11.32l32,32A8,8,0,0,1,213.66,181.66Zm-139.32-64a8,8,0,0,0,11.32-11.32L67.31,88H208a8,8,0,0,0,0-16H67.31L85.66,53.66A8,8,0,0,0,74.34,42.34l-32,32a8,8,0,0,0,0,11.32Z"/>'
   };
   function icon(name, size) {
     return '<svg width="' + size + '" height="' + size + '" viewBox="0 0 256 256" fill="currentColor">' + ICONS[name] + '</svg>';
@@ -257,6 +263,168 @@
   }
   var PROGRAM = buildProgram();
 
+  // Curated substitutes per exercise, keyed by "<dayId>-<index>". For
+  // Reload-flagged lifts, alternatives are chosen to keep shoulder stress
+  // equal to or lower than the prescribed exercise, not just "similar".
+  var ALTERNATIVES = {
+    'mon-0': [ // Incline Barbell Press (Reload)
+      { name: 'Incline Machine Press', reason: 'Fixed path removes the stabilizer demand on the shoulder — safer if the bar path is what bothers you.' },
+      { name: 'Flat Dumbbell Press (light)', reason: 'Dumbbells let each arm find its own path; drop the angle if it’s the incline position that’s aggravating it.' },
+    ],
+    'mon-1': [ // Weighted Pull-Ups
+      { name: 'Weighted Lat Pulldown', reason: 'Same pulling pattern, easier to load precisely if the rack or a pull-up bar is taken.' },
+      { name: 'Assisted Pull-Up Machine', reason: 'Keeps the vertical pull pattern if grip or shoulder fatigue is limiting reps that day.' },
+    ],
+    'mon-2': [ // Flat Dumbbell Press (Reload)
+      { name: 'Seated Chest Press Machine', reason: 'Fixed path, easy to drop load slightly if pressing feels off that day.' },
+      { name: 'Incline DB Press (lighter)', reason: 'Different angle if it’s specifically the flat position that’s uncomfortable.' },
+    ],
+    'mon-3': [ // Pec Deck
+      { name: 'Cable Fly', reason: 'Same pattern with an adjustable angle if the pec deck is occupied.' },
+      { name: 'Dumbbell Fly', reason: 'No machine needed — easy to scale down if pressing already flared something up.' },
+    ],
+    'mon-4': [ // Chest Supported Row (T-Bar)
+      { name: 'Seated Cable Row', reason: 'Same horizontal pull if the T-bar station is taken.' },
+      { name: 'Single Arm Dumbbell Row', reason: 'No machine needed, and lets you check each side independently.' },
+    ],
+    'mon-5': [ // Seated DB Shoulder Press (Reload)
+      { name: 'Landmine Press', reason: 'Angled path loads the front of the shoulder far less than straight overhead pressing.' },
+      { name: 'Machine Shoulder Press (light)', reason: 'Fixed path if stabilizing dumbbells overhead is what’s bothering it.' },
+    ],
+    'mon-6': [ // Cable Lateral Raise
+      { name: 'Dumbbell Lateral Raise', reason: 'No cable station needed.' },
+      { name: 'Machine Lateral Raise', reason: 'Fixed path if the joint feels unstable at the top of the movement.' },
+    ],
+    'mon-7': [ // Overhead Cable Extension
+      { name: 'Rope Pushdown', reason: 'Same muscle, no overhead arm position if that’s the uncomfortable part.' },
+      { name: 'Dumbbell Skull Crusher', reason: 'No cable station needed.' },
+    ],
+    'mon-8': [ // Hanging Leg Raise
+      { name: 'Captain’s Chair Leg Raise', reason: 'Same movement, supported if grip or hang time is the limiter.' },
+      { name: 'Lying Leg Raise', reason: 'No bar needed at all.' },
+    ],
+    'tue-0': [ // Back Squat
+      { name: 'Hack Squat Machine', reason: 'Same pattern, fixed path if the rack is occupied or you want less spinal loading that day.' },
+      { name: 'Leg Press', reason: 'Removes the balance and bracing demand if your lower back is cooked from the week.' },
+    ],
+    'tue-1': [ // Romanian Deadlift
+      { name: 'Cable Pull-Through', reason: 'Same hip hinge with constant tension if the platform is taken.' },
+      { name: 'Dumbbell RDL', reason: 'No bar needed — easier to manage if grip is the limiter.' },
+    ],
+    'tue-2': [ // Leg Press
+      { name: 'Hack Squat Machine', reason: 'Similar quad-dominant pattern if the leg press is occupied.' },
+      { name: 'Walking Lunges', reason: 'No machine needed at all.' },
+    ],
+    'tue-3': [ // Seated Leg Curl
+      { name: 'Lying Leg Curl', reason: 'Same movement on a different machine.' },
+      { name: 'Stability Ball Leg Curl', reason: 'Bodyweight option if no curl machine is free.' },
+    ],
+    'tue-4': [ // Standing Calf Raise
+      { name: 'Seated Calf Raise', reason: 'Shifts emphasis to the soleus if the standing station is taken.' },
+      { name: 'Leg Press Calf Raise', reason: 'Use the leg press platform if the calf machine is occupied.' },
+    ],
+    'tue-5': [ // Cable Crunch
+      { name: 'Weighted Sit-Up', reason: 'No cable station needed.' },
+      { name: 'Machine Crunch', reason: 'Fixed path alternative.' },
+    ],
+    'wed-0': [ // Barbell Curl
+      { name: 'EZ-Bar Curl', reason: 'The angled grip is easier on the wrist and elbow if the straight bar is what’s bothering you.' },
+      { name: 'Dumbbell Curl', reason: 'Lets each arm move independently if one side feels off — worth doing given this is flagged as your injury-prone lift.' },
+    ],
+    'wed-1': [ // Incline DB Curl
+      { name: 'Standing DB Curl', reason: 'No bench needed if the incline bench is occupied.' },
+      { name: 'Cable Curl', reason: 'Constant tension alternative.' },
+    ],
+    'wed-2': [ // Cable Hammer Curl (rope)
+      { name: 'Dumbbell Hammer Curl', reason: 'No cable station needed.' },
+      { name: 'Cross-Body Hammer Curl', reason: 'Same neutral grip, no rope attachment required.' },
+    ],
+    'wed-3': [ // Close Grip Bench Press
+      { name: 'Dumbbell Close Grip Press', reason: 'No bar or rack needed if the bench is occupied.' },
+      { name: 'Dip Machine', reason: 'Similar pressing pattern on a fixed path.' },
+    ],
+    'wed-4': [ // Overhead Cable Extension
+      { name: 'Dumbbell Overhead Extension', reason: 'No cable station needed.' },
+      { name: 'Rope Pushdown', reason: 'Same muscle without the overhead arm position.' },
+    ],
+    'wed-5': [ // Rope Pushdown
+      { name: 'Straight Bar Pushdown', reason: 'Same station, different attachment if the rope is in use.' },
+      { name: 'Dumbbell Kickback', reason: 'No cable station needed at all.' },
+    ],
+    'wed-6': [ // Ab Wheel
+      { name: 'Plank Walkout', reason: 'No wheel needed.' },
+      { name: 'Stability Ball Rollout', reason: 'Similar anti-extension demand with a gentler entry point.' },
+    ],
+    'wed-7': [ // Cable Crunch
+      { name: 'Weighted Sit-Up', reason: 'No cable station needed.' },
+      { name: 'Machine Crunch', reason: 'Fixed path alternative.' },
+    ],
+    'wed-8': [ // Hanging Leg Raise
+      { name: 'Captain’s Chair Leg Raise', reason: 'Same movement, supported if grip or hang time is the limiter.' },
+      { name: 'Lying Leg Raise', reason: 'No bar needed at all.' },
+    ],
+    'thu-0': [ // Incline Dumbbell Press (Reload)
+      { name: 'Incline Machine Press', reason: 'Fixed path if stabilizing free dumbbells at this angle is what’s bothering the shoulder.' },
+      { name: 'Low-Incline Smith Machine Press', reason: 'Guided bar path, easy to drop load precisely.' },
+    ],
+    'thu-1': [ // Lat Pulldown / Single-Arm Pulldown Machine
+      { name: 'Assisted Pull-Up Machine', reason: 'Same vertical pull if both pulldown stations are taken.' },
+      { name: 'Straight-Arm Pulldown', reason: 'Different pull angle, less grip-dominant.' },
+    ],
+    'thu-2': [ // Seated Chest Press Machine (Reload)
+      { name: 'Flat Dumbbell Press (light)', reason: 'If the machine is occupied — keep the load conservative given the reload phase.' },
+      { name: 'Push-Up (hands elevated)', reason: 'Bodyweight option, easy to regulate difficulty by hand height.' },
+    ],
+    'thu-3': [ // Single Arm Cable Row
+      { name: 'Single Arm Dumbbell Row', reason: 'No cable station needed.' },
+      { name: 'Chest Supported Row', reason: 'Bilateral alternative if the cable station is busy.' },
+    ],
+    'thu-4': [ // DB Lateral Raise — Drop Set
+      { name: 'Cable Lateral Raise Drop Set', reason: 'Same drop-set structure, easier to adjust weight quickly on a stack.' },
+      { name: 'Machine Lateral Raise', reason: 'Fixed path if stability is an issue that day.' },
+    ],
+    'thu-5': [ // Rear Delt Fly
+      { name: 'Reverse Pec Deck', reason: 'Fixed path if the free-weight version feels unstable.' },
+      { name: 'Face Pull', reason: 'Also hits the rear delts and rotator cuff — doubles as prehab.' },
+    ],
+    'thu-6': [ // Seated Shoulder Press (Reload — highest risk)
+      { name: 'Landmine Press', reason: 'Angled bar path loads the shoulder less than straight overhead — good substitute while this stays your highest-risk lift.' },
+      { name: 'Machine Shoulder Press (light)', reason: 'Fixed path if free dumbbells overhead are what’s aggravating it.' },
+    ],
+    'thu-7': [ // Ab Wheel
+      { name: 'Plank Walkout', reason: 'No wheel needed.' },
+      { name: 'Stability Ball Rollout', reason: 'Similar anti-extension demand with a gentler entry point.' },
+    ],
+    'fri-0': [ // Hack Squat Machine
+      { name: 'Booty Builder Hack Squat', reason: 'Already in your rotation — use it if the standard hack squat is occupied.' },
+      { name: 'Leg Press', reason: 'Similar quad-dominant pattern if neither hack squat is free.' },
+    ],
+    'fri-1': [ // Hip Thrust Machine
+      { name: 'Barbell Hip Thrust', reason: 'Same movement, no machine needed.' },
+      { name: 'Dumbbell Glute Bridge', reason: 'No bench or machine needed at all.' },
+    ],
+    'fri-2': [ // Bulgarian Split Squat
+      { name: 'Walking Lunges', reason: 'No bench needed if they’re all taken.' },
+      { name: 'Reverse Lunge', reason: 'Easier balance demand, same unilateral pattern.' },
+    ],
+    'fri-3': [ // Lying Leg Curl
+      { name: 'Seated Leg Curl', reason: 'Same movement on a different machine.' },
+      { name: 'Stability Ball Leg Curl', reason: 'No machine needed.' },
+    ],
+    'fri-4': [ // Seated Calf Raise
+      { name: 'Standing Calf Raise', reason: 'Shifts emphasis to the gastrocnemius if the seated station is taken.' },
+      { name: 'Leg Press Calf Raise', reason: 'Use the leg press platform instead.' },
+    ],
+    'fri-5': [ // Cable Woodchoppers
+      { name: 'Dumbbell Woodchopper', reason: 'No cable station needed.' },
+      { name: 'Pallof Press', reason: 'Anti-rotation alternative, easier to load on a busy cable station.' },
+    ],
+    'sat-0': [ // Pull-Up EMOM
+      { name: 'Lat Pulldown EMOM', reason: 'Same rep/rest structure if the pull-up bar is occupied or your grip is cooked from Monday.' },
+      { name: 'Ring Row EMOM', reason: 'Bodyweight, easier to scale down mid-set if needed.' },
+    ],
+  };
+
   function parseTarget(exd) {
     if (exd.targetOverride) return exd.targetOverride;
     var str = exd.setsReps || '';
@@ -297,6 +465,7 @@
     sessions: loadSessions(),
     restTimers: {},
     showProtocol: false,
+    altOpen: {},
   };
 
   function ensureExercise(date, dayId, exId) {
@@ -391,6 +560,10 @@
   }
   function startRest(exId, seconds) {
     state.restTimers[exId] = Date.now() + seconds * 1000;
+    render();
+  }
+  function toggleAlt(exId) {
+    state.altOpen[exId] = !state.altOpen[exId];
     render();
   }
 
@@ -605,7 +778,27 @@
       var restBtnHolder = h('span', { 'data-rest-holder': exId });
       restBtnHolder.appendChild(renderRestButton(exId, exd.rest, restSecs, remaining));
       actions.appendChild(restBtnHolder);
+
+      var altList = ALTERNATIVES[exId];
+      if (altList && altList.length) {
+        var altOpen = !!state.altOpen[exId];
+        actions.appendChild(h('button', {
+          class: 'btn btn-ghost', html: icon('swap', 12) + (altOpen ? ' Hide alternatives' : ' Machine taken / hurts? Swap it'),
+          onClick: function () { toggleAlt(exId); },
+        }));
+      }
       card.appendChild(actions);
+
+      if (altList && altList.length && state.altOpen[exId]) {
+        var altWrap = h('div', { class: 'alt-list' });
+        altList.forEach(function (alt) {
+          var altItem = h('div', { class: 'alt-item' });
+          altItem.appendChild(h('div', { class: 'alt-name' }, alt.name));
+          altItem.appendChild(h('div', { class: 'alt-reason' }, alt.reason));
+          altWrap.appendChild(altItem);
+        });
+        card.appendChild(altWrap);
+      }
 
       var noteVal = (existing && existing.note) || '';
       var textarea = h('textarea', {
