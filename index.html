@@ -164,7 +164,8 @@
 (function () {
   "use strict";
 
-  var STORE_KEY = "gymTracker.sessions.v1";
+  var STORE_KEY = "gymTracker.sessions.v2";
+  var LEGACY_STORE_KEY = "gymTracker.sessions.v1";
 
   var ICONS = {
     back: '<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>',
@@ -451,8 +452,31 @@
   // ---------------------------------------------------------------------
   // State + persistence
   // ---------------------------------------------------------------------
+  // v1 keyed sessions flatly by date ({date: {dayId, ex}}), which meant two
+  // different program days logged on the same calendar date would stomp on
+  // each other's history. v2 nests by dayId first ({dayId: {date: {ex}}}) so
+  // that can't happen. This migrates any existing v1 data over once.
+  function migrateLegacySessions() {
+    var raw;
+    try { raw = localStorage.getItem(LEGACY_STORE_KEY); } catch (e) { raw = null; }
+    if (!raw) return {};
+    var old;
+    try { old = JSON.parse(raw); } catch (e) { return {}; }
+    var migrated = {};
+    Object.keys(old || {}).forEach(function (date) {
+      var entry = old[date];
+      if (!entry || !entry.dayId) return;
+      if (!migrated[entry.dayId]) migrated[entry.dayId] = {};
+      migrated[entry.dayId][date] = { ex: entry.ex || {} };
+    });
+    return migrated;
+  }
   function loadSessions() {
-    try { return JSON.parse(localStorage.getItem(STORE_KEY) || '{}'); } catch (e) { return {}; }
+    try {
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw) return JSON.parse(raw);
+    } catch (e) {}
+    return migrateLegacySessions();
   }
   function saveSessions() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state.sessions)); } catch (e) {}
@@ -469,9 +493,10 @@
   };
 
   function ensureExercise(date, dayId, exId) {
-    if (!state.sessions[date]) state.sessions[date] = { dayId: dayId, ex: {} };
-    if (!state.sessions[date].ex[exId]) state.sessions[date].ex[exId] = { rows: [], note: '' };
-    return state.sessions[date].ex[exId];
+    if (!state.sessions[dayId]) state.sessions[dayId] = {};
+    if (!state.sessions[dayId][date]) state.sessions[dayId][date] = { ex: {} };
+    if (!state.sessions[dayId][date].ex[exId]) state.sessions[dayId][date].ex[exId] = { rows: [], note: '' };
+    return state.sessions[dayId][date].ex[exId];
   }
   function ensureRow(entry, rowIdx) {
     while (entry.rows.length <= rowIdx) entry.rows.push({ w: '', r: '', done: false });
@@ -508,12 +533,12 @@
   }
 
   function getPrevRow(dayId, exId, rowIdx, beforeDate) {
-    var sessions = state.sessions;
-    var dates = Object.keys(sessions).filter(function (d) {
-      return d < beforeDate && sessions[d].dayId === dayId && sessions[d].ex && sessions[d].ex[exId] && sessions[d].ex[exId].rows[rowIdx];
+    var dayObj = state.sessions[dayId] || {};
+    var dates = Object.keys(dayObj).filter(function (d) {
+      return d < beforeDate && dayObj[d].ex && dayObj[d].ex[exId] && dayObj[d].ex[exId].rows[rowIdx];
     }).sort();
     if (!dates.length) return null;
-    return sessions[dates[dates.length - 1]].ex[exId].rows[rowIdx];
+    return dayObj[dates[dates.length - 1]].ex[exId].rows[rowIdx];
   }
 
   function isSessionMet(rows, target) {
@@ -524,19 +549,23 @@
     return logged.slice(0, target.sets).every(function (r) { return Number(r.r) >= target.reps; });
   }
 
-  function readyToProgress(dayId, exId, target) {
-    var sessions = state.sessions;
-    var dates = Object.keys(sessions).filter(function (d) {
-      return sessions[d].dayId === dayId && sessions[d].ex && sessions[d].ex[exId] && sessions[d].ex[exId].rows && sessions[d].ex[exId].rows.length;
+  // "Ready to progress" reflects the date currently being viewed — only
+  // sessions up through that date count, so browsing history doesn't show
+  // today's progression status on an old session.
+  function readyToProgress(dayId, exId, target, asOfDate) {
+    var dayObj = state.sessions[dayId] || {};
+    var dates = Object.keys(dayObj).filter(function (d) {
+      return d <= asOfDate && dayObj[d].ex && dayObj[d].ex[exId] && dayObj[d].ex[exId].rows && dayObj[d].ex[exId].rows.length;
     }).sort();
     if (dates.length < 2) return false;
     var lastTwo = dates.slice(-2);
-    return lastTwo.every(function (d) { return isSessionMet(sessions[d].ex[exId].rows, target); });
+    return lastTwo.every(function (d) { return isSessionMet(dayObj[d].ex[exId].rows, target); });
   }
 
   function getDateList(dayId) {
+    var dayObj = state.sessions[dayId] || {};
     var set = {};
-    Object.keys(state.sessions).forEach(function (d) { if (state.sessions[d].dayId === dayId) set[d] = true; });
+    Object.keys(dayObj).forEach(function (d) { set[d] = true; });
     set[todayISO()] = true;
     return Object.keys(set).sort();
   }
@@ -697,7 +726,7 @@
     }));
     wrap.appendChild(nav);
 
-    var session = state.sessions[date];
+    var session = state.sessions[day.id] && state.sessions[day.id][date];
     var lastSection = null;
     day.exercises.forEach(function (exd, i) {
       var exId = day.id + '-' + i;
@@ -722,7 +751,7 @@
       card.appendChild(ruleEl);
       card.appendChild(h('div', { class: 'ex-note' }, exd.note));
 
-      if (readyToProgress(day.id, exId, target)) {
+      if (readyToProgress(day.id, exId, target, date)) {
         card.appendChild(h('div', { class: 'ready-banner' }, [
           h('span', { html: icon('sparkle', 14) }),
           h('span', {}, 'Two clean sessions at target — ready to progress.'),
@@ -805,7 +834,6 @@
         class: 'note-field', placeholder: 'Notes for this exercise…', value: noteVal,
         onChange: function (e) { updateNote(date, day.id, exId, e.target.value); },
       });
-      textarea.value = noteVal;
       card.appendChild(textarea);
 
       wrap.appendChild(card);
