@@ -1,0 +1,640 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Outfit Picker</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<style>
+  :root {
+    --color-bg: #161826;
+    --color-surface: #232532;
+    --color-text: #e9e9ed;
+    --color-accent: #9184d9;
+    --color-divider: color-mix(in srgb, #e9e9ed 16%, transparent);
+
+    --color-neutral-700: #595d6c;
+    --color-neutral-800: #3f424d;
+    --color-neutral-900: #292b31;
+
+    --color-accent-100: #f5f4ff;
+    --color-accent-300: #d2cefd;
+    --color-accent-700: #5d5294;
+    --color-accent-800: #423a6a;
+    --color-accent-900: #2b2741;
+
+    --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    --space-1: 3px; --space-2: 6px; --space-3: 9px; --space-4: 12px;
+    --space-5: 15px; --space-6: 18px; --space-7: 21px; --space-8: 24px;
+
+    --radius-sm: 4px; --radius-md: 8px; --radius-lg: 14px;
+    --shadow-sm: 0 0 0 1px var(--color-neutral-800);
+    --shadow-md: 0 0 0 1px var(--color-neutral-700), 0 6px 18px rgba(0,0,0,0.55);
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body {
+    margin: 0; background: var(--color-bg); color: var(--color-text);
+    font-family: var(--font); -webkit-font-smoothing: antialiased;
+    display: flex; justify-content: center;
+  }
+  h1, h2, h3 { font-weight: 600; letter-spacing: -0.01em; margin: 0; }
+  a { color: var(--color-accent-300); }
+  button { font-family: inherit; }
+  ::selection { background: var(--color-accent-700); }
+  :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+  .shell { width: 100%; max-width: 480px; min-height: 100%; padding: var(--space-5) var(--space-4) var(--space-8); }
+
+  .backlink { font-size: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent); text-decoration: none; }
+  .backlink:hover { color: var(--color-accent); }
+
+  h1.title { font-size: 24px; margin: 6px 0 var(--space-4); }
+
+  .tabs { display: flex; gap: 4px; background: var(--color-neutral-800); border-radius: var(--radius-md); padding: 4px; margin-bottom: var(--space-5); }
+  .tab { flex: 1; text-align: center; padding: 8px 4px; border-radius: var(--radius-sm); font-size: 13px; font-weight: 600; cursor: pointer; color: color-mix(in srgb, var(--color-text) 65%, transparent); background: transparent; border: none; }
+  .tab.active { background: var(--color-surface); color: var(--color-text); box-shadow: var(--shadow-sm); }
+
+  .card { background: var(--color-surface); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); padding: var(--space-4); margin-bottom: var(--space-4); }
+
+  .pick-image-wrap { width: 100%; aspect-ratio: 3/4; border-radius: var(--radius-md); overflow: hidden; background: var(--color-neutral-900); display: flex; align-items: center; justify-content: center; margin-bottom: var(--space-3); }
+  .pick-image-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .pick-image-wrap .placeholder { color: var(--color-neutral-700); font-size: 13px; padding: var(--space-6); text-align: center; }
+
+  .outfit-name { font-size: 17px; font-weight: 600; margin-bottom: 4px; }
+  .tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+  .tag { font-size: 11px; padding: 3px 8px; border-radius: 999px; background: var(--color-accent-800); color: var(--color-accent-100); }
+  .tag-outline { background: transparent; border: 1px solid var(--color-neutral-700); color: color-mix(in srgb, var(--color-text) 75%, transparent); }
+
+  .meta-line { font-size: 12px; color: color-mix(in srgb, var(--color-text) 50%, transparent); margin-top: 4px; }
+
+  .btn-row { display: flex; gap: 8px; margin-top: var(--space-4); }
+  .btn { flex: 1; display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; font-weight: 600; font-size: 14px; border-radius: var(--radius-md); border: 1px solid transparent; padding: 10px; background: var(--color-neutral-800); color: var(--color-text); }
+  .btn:active { opacity: 0.8; }
+  .btn-primary { background: var(--color-accent); color: #161826; }
+  .btn-ghost { background: transparent; border-color: var(--color-divider); }
+  .btn-icon { flex: none; padding: 10px 14px; }
+  .btn-sm { padding: 6px 10px; font-size: 12px; flex: none; }
+  .btn-full { width: 100%; }
+
+  .chip-group { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip { font-size: 12px; padding: 5px 10px; border-radius: 999px; border: 1px solid var(--color-neutral-700); color: color-mix(in srgb, var(--color-text) 80%, transparent); background: transparent; cursor: pointer; }
+  .chip.selected { background: var(--color-accent-800); border-color: var(--color-accent-700); color: var(--color-accent-100); }
+
+  .section-title { font-size: 13px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.04em; color: color-mix(in srgb, var(--color-text) 55%, transparent); margin: var(--space-5) 0 var(--space-2); }
+
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--space-3); }
+  .outfit-card { background: var(--color-surface); border-radius: var(--radius-md); overflow: hidden; box-shadow: var(--shadow-sm); cursor: pointer; position: relative; }
+  .outfit-card img { width: 100%; aspect-ratio: 3/4; object-fit: cover; display: block; background: var(--color-neutral-900); }
+  .outfit-card .info { padding: 8px; }
+  .outfit-card .info .name { font-size: 13px; font-weight: 600; margin-bottom: 3px; }
+  .outfit-card .star { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.55); border-radius: 999px; width: 26px; height: 26px; display: flex; align-items: center; justify-content: center; font-size: 14px; border: none; cursor: pointer; }
+  .outfit-card.archived { opacity: 0.45; }
+
+  .empty-state { text-align: center; padding: var(--space-8) var(--space-4); color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+  .empty-state .btn { margin-top: var(--space-4); display: inline-flex; }
+
+  .history-row { display: flex; gap: var(--space-3); align-items: center; padding: var(--space-3) 0; border-bottom: 1px solid var(--color-divider); }
+  .history-row:last-child { border-bottom: none; }
+  .history-row img { width: 48px; height: 48px; border-radius: var(--radius-sm); object-fit: cover; background: var(--color-neutral-900); flex: none; }
+  .history-row .date { font-size: 12px; color: color-mix(in srgb, var(--color-text) 55%, transparent); }
+  .history-row .name { font-size: 14px; font-weight: 600; }
+
+  .modal-backdrop { position: fixed; inset: 0; background: rgba(0,0,0,0.6); display: flex; align-items: flex-end; justify-content: center; z-index: 10; }
+  .modal { width: 100%; max-width: 480px; max-height: 88vh; overflow-y: auto; background: var(--color-surface); border-radius: var(--radius-lg) var(--radius-lg) 0 0; padding: var(--space-5); box-shadow: var(--shadow-md); }
+  .modal h2 { font-size: 18px; margin-bottom: var(--space-4); }
+  .field { margin-bottom: var(--space-4); }
+  .field label { display: block; font-size: 12px; font-weight: 600; color: color-mix(in srgb, var(--color-text) 65%, transparent); margin-bottom: 6px; }
+  .input { width: 100%; min-height: 38px; padding: 8px 10px; font: inherit; font-size: 14px; color: var(--color-text); background: var(--color-bg); border: 1px solid var(--color-divider); border-radius: var(--radius-md); }
+  .file-input { width: 100%; font-size: 13px; color: var(--color-text); }
+  .thumb-preview-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+  .thumb-preview-row img { width: 56px; height: 56px; object-fit: cover; border-radius: var(--radius-sm); }
+  .modal-close { position: sticky; top: 0; float: right; background: none; border: none; color: var(--color-text); font-size: 20px; cursor: pointer; line-height: 1; }
+
+  .top-actions { display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--space-2); }
+  .icon-btn { background: none; border: none; color: var(--color-accent); font-size: 13px; font-weight: 600; cursor: pointer; padding: 4px; }
+</style>
+</head>
+<body>
+<div class="shell" id="app"></div>
+<script>
+(function () {
+  var OCCASIONS = ['Casual', 'Work', 'Gym', 'Formal', 'Date Night', 'Loungewear'];
+  var SEASONS = ['Spring', 'Summer', 'Fall', 'Winter', 'All-season'];
+  var DB_NAME = 'outfit-picker';
+  var DB_VERSION = 1;
+  var NEVER_WORN_WEIGHT = 45;
+  var MAX_WEIGHT_DAYS = 60;
+  var FAVORITE_MULTIPLIER = 1.3;
+
+  var dbPromise = openDB();
+
+  function openDB() {
+    return new Promise(function (resolve, reject) {
+      var req = indexedDB.open(DB_NAME, DB_VERSION);
+      req.onupgradeneeded = function () {
+        var db = req.result;
+        if (!db.objectStoreNames.contains('outfits')) db.createObjectStore('outfits', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('overrides')) db.createObjectStore('overrides', { keyPath: 'id' });
+        if (!db.objectStoreNames.contains('history')) db.createObjectStore('history', { keyPath: 'date' });
+        if (!db.objectStoreNames.contains('daily')) db.createObjectStore('daily', { keyPath: 'date' });
+      };
+      req.onsuccess = function () { resolve(req.result); };
+      req.onerror = function () { reject(req.error); };
+    });
+  }
+  function idbGetAll(store) {
+    return dbPromise.then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var req = db.transaction(store, 'readonly').objectStore(store).getAll();
+        req.onsuccess = function () { resolve(req.result); };
+        req.onerror = function () { reject(req.error); };
+      });
+    });
+  }
+  function idbPut(store, value) {
+    return dbPromise.then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).put(value);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+  function idbDelete(store, key) {
+    return dbPromise.then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).delete(key);
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+  function idbClear(store) {
+    return dbPromise.then(function (db) {
+      return new Promise(function (resolve, reject) {
+        var tx = db.transaction(store, 'readwrite');
+        tx.objectStore(store).clear();
+        tx.oncomplete = function () { resolve(); };
+        tx.onerror = function () { reject(tx.error); };
+      });
+    });
+  }
+
+  function todayISO() { return new Date().toISOString().slice(0, 10); }
+  function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 8); }
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function formatDate(iso) {
+    var d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { weekday: 'short', month: 'short', day: 'numeric' });
+  }
+
+  var state = {
+    view: 'today',
+    outfits: [],
+    overrides: {},
+    history: [],
+    dailyPick: null,
+    filters: { occasion: {}, season: {} },
+    modal: null,
+    loading: true
+  };
+
+  function mergedOutfit(o) {
+    var ov = state.overrides[o.id];
+    return ov ? Object.assign({}, o, ov) : o;
+  }
+  function allOutfits() { return state.outfits.map(mergedOutfit); }
+  function findOutfit(id) { return allOutfits().filter(function (o) { return o.id === id; })[0] || null; }
+
+  function activeFilterKeys(group) {
+    return Object.keys(state.filters[group]).filter(function (k) { return state.filters[group][k]; });
+  }
+  function candidatePool() {
+    var active = allOutfits().filter(function (o) { return !o.archived; });
+    var occ = activeFilterKeys('occasion'), sea = activeFilterKeys('season');
+    if (!occ.length && !sea.length) return active;
+    var filtered = active.filter(function (o) {
+      var occOk = !occ.length || (o.occasion || []).some(function (t) { return occ.indexOf(t) !== -1; });
+      var seaOk = !sea.length || (o.season || []).some(function (t) { return sea.indexOf(t) !== -1; });
+      return occOk && seaOk;
+    });
+    return filtered.length ? filtered : active;
+  }
+  function daysSince(dateStr) {
+    if (!dateStr) return Infinity;
+    return Math.round((new Date(todayISO() + 'T00:00:00') - new Date(dateStr + 'T00:00:00')) / 86400000);
+  }
+  function weightOf(o) {
+    var d = daysSince(o.lastWorn);
+    var base = d === Infinity ? NEVER_WORN_WEIGHT : Math.min(Math.max(d, 1), MAX_WEIGHT_DAYS);
+    return base * (o.favorite ? FAVORITE_MULTIPLIER : 1);
+  }
+  function weightedPick(pool, excludeId) {
+    var list = (excludeId && pool.length > 1) ? pool.filter(function (o) { return o.id !== excludeId; }) : pool;
+    if (!list.length) return null;
+    var weights = list.map(weightOf);
+    var total = weights.reduce(function (a, b) { return a + b; }, 0);
+    var r = Math.random() * total;
+    for (var i = 0; i < list.length; i++) { r -= weights[i]; if (r <= 0) return list[i]; }
+    return list[list.length - 1];
+  }
+
+  function updateOutfit(outfit, patch) {
+    if (outfit.static) {
+      var ov = Object.assign({ id: outfit.id }, state.overrides[outfit.id], patch);
+      state.overrides[outfit.id] = ov;
+      return idbPut('overrides', ov);
+    }
+    var idx = state.outfits.findIndex(function (o) { return o.id === outfit.id; });
+    var updated = Object.assign({}, state.outfits[idx], patch);
+    state.outfits[idx] = updated;
+    return idbPut('outfits', updated);
+  }
+
+  function ensureTodayPick() {
+    var todayKey = todayISO();
+    if (state.dailyPick && state.dailyPick.date === todayKey && findOutfit(state.dailyPick.outfitId)) return Promise.resolve();
+    var pick = weightedPick(candidatePool(), null);
+    if (!pick) { state.dailyPick = null; return Promise.resolve(); }
+    var rec = { date: todayKey, outfitId: pick.id };
+    state.dailyPick = rec;
+    return idbPut('daily', rec);
+  }
+  function shufflePick() {
+    var todayKey = todayISO();
+    var currentId = state.dailyPick && state.dailyPick.date === todayKey ? state.dailyPick.outfitId : null;
+    var pick = weightedPick(candidatePool(), currentId);
+    if (!pick) return Promise.resolve();
+    var rec = { date: todayKey, outfitId: pick.id };
+    state.dailyPick = rec;
+    return idbPut('daily', rec).then(render);
+  }
+  function wearToday() {
+    var todayKey = todayISO();
+    return ensureTodayPick().then(function () {
+      if (!state.dailyPick) return;
+      var outfit = findOutfit(state.dailyPick.outfitId);
+      if (!outfit) return;
+      var entry = { date: todayKey, outfitId: outfit.id, name: outfit.name, image: outfit.image };
+      state.history = [entry].concat(state.history.filter(function (h) { return h.date !== todayKey; }));
+      var timesWorn = (outfit.timesWorn || 0) + 1;
+      return Promise.all([
+        idbPut('history', entry),
+        updateOutfit(outfit, { lastWorn: todayKey, timesWorn: timesWorn })
+      ]);
+    }).then(render);
+  }
+
+  function toggleFilter(group, key) {
+    state.filters[group][key] = !state.filters[group][key];
+    var todayKey = todayISO();
+    var wornToday = state.history.some(function (h) { return h.date === todayKey && state.dailyPick && h.outfitId === state.dailyPick.outfitId; });
+    if (!wornToday) {
+      var pool = candidatePool();
+      var pick = state.dailyPick ? findOutfit(state.dailyPick.outfitId) : null;
+      var stillValid = pick && pool.some(function (o) { return o.id === pick.id; });
+      if (!stillValid) {
+        var newPick = weightedPick(pool, null);
+        if (newPick) {
+          state.dailyPick = { date: todayKey, outfitId: newPick.id };
+          idbPut('daily', state.dailyPick);
+        }
+      }
+    }
+    render();
+  }
+  function toggleFavorite(outfit) { updateOutfit(outfit, { favorite: !outfit.favorite }).then(render); }
+  function toggleArchived(outfit) { updateOutfit(outfit, { archived: !outfit.archived }).then(render); }
+  function deleteOutfit(outfit) {
+    if (outfit.static) return;
+    if (!confirm('Delete "' + (outfit.name || 'this outfit') + '"? This cannot be undone.')) return;
+    state.outfits = state.outfits.filter(function (o) { return o.id !== outfit.id; });
+    idbDelete('outfits', outfit.id).then(render);
+  }
+
+  function fileToDataURL(file) {
+    return new Promise(function (resolve, reject) {
+      var reader = new FileReader();
+      reader.onload = function () { resolve(reader.result); };
+      reader.onerror = reject;
+      reader.readAsDataURL(file);
+    });
+  }
+
+  function openAddModal() {
+    state.modal = { mode: 'add', files: [], name: '', occasion: {}, season: {}, favorite: false };
+    render();
+  }
+  function openEditModal(outfit) {
+    state.modal = {
+      mode: 'edit', outfit: outfit, name: outfit.name || '',
+      occasion: (outfit.occasion || []).reduce(function (a, t) { a[t] = true; return a; }, {}),
+      season: (outfit.season || []).reduce(function (a, t) { a[t] = true; return a; }, {}),
+      favorite: !!outfit.favorite, archived: !!outfit.archived
+    };
+    render();
+  }
+  function closeModal() { state.modal = null; render(); }
+
+  function handleFilesSelected(input) {
+    var files = Array.prototype.slice.call(input.files || []);
+    Promise.all(files.map(fileToDataURL)).then(function (dataUrls) {
+      state.modal.files = dataUrls;
+      render();
+    });
+  }
+
+  function submitAddModal() {
+    var m = state.modal;
+    if (!m.files.length) { alert('Choose at least one screenshot.'); return; }
+    var occ = Object.keys(m.occasion).filter(function (k) { return m.occasion[k]; });
+    var sea = Object.keys(m.season).filter(function (k) { return m.season[k]; });
+    var puts = m.files.map(function (dataUrl, i) {
+      var outfit = {
+        id: uid(), image: dataUrl,
+        name: m.name ? (m.files.length > 1 ? m.name + ' ' + (i + 1) : m.name) : 'Outfit',
+        occasion: occ, season: sea, favorite: m.favorite,
+        archived: false, lastWorn: null, timesWorn: 0, createdAt: todayISO()
+      };
+      state.outfits.push(outfit);
+      return idbPut('outfits', outfit);
+    });
+    Promise.all(puts).then(function () { state.modal = null; render(); });
+  }
+  function submitEditModal() {
+    var m = state.modal;
+    var occ = Object.keys(m.occasion).filter(function (k) { return m.occasion[k]; });
+    var sea = Object.keys(m.season).filter(function (k) { return m.season[k]; });
+    var patch = { name: m.name, occasion: occ, season: sea, favorite: m.favorite, archived: m.archived };
+    updateOutfit(m.outfit, patch).then(function () { state.modal = null; render(); });
+  }
+
+  function exportBackup() {
+    var payload = { outfits: state.outfits, overrides: state.overrides, history: state.history, exportedAt: new Date().toISOString() };
+    var blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url; a.download = 'outfit-picker-backup-' + todayISO() + '.json';
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+  function importBackup(input) {
+    var file = input.files && input.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function () {
+      var data;
+      try { data = JSON.parse(reader.result); } catch (e) { alert('Invalid backup file.'); return; }
+      if (!confirm('Import will merge outfits and history from this backup. Continue?')) return;
+      var outfits = data.outfits || [];
+      var overrides = data.overrides || {};
+      var history = data.history || [];
+      Promise.all(
+        outfits.map(function (o) { state.outfits.push(o); return idbPut('outfits', o); })
+        .concat(Object.keys(overrides).map(function (k) { state.overrides[k] = overrides[k]; return idbPut('overrides', overrides[k]); }))
+        .concat(history.map(function (h) {
+          state.history = [h].concat(state.history.filter(function (x) { return x.date !== h.date; }));
+          return idbPut('history', h);
+        }))
+      ).then(function () { input.value = ''; render(); });
+    };
+    reader.readAsText(file);
+  }
+
+  function chipGroup(group, options, selectedMap) {
+    return '<div class="chip-group">' + options.map(function (opt) {
+      var sel = selectedMap[opt];
+      return '<button type="button" class="chip' + (sel ? ' selected' : '') + '" data-chip-group="' + group + '" data-chip-val="' + esc(opt) + '">' + esc(opt) + '</button>';
+    }).join('') + '</div>';
+  }
+
+  function renderTags(outfit) {
+    var tags = (outfit.occasion || []).concat(outfit.season || []);
+    if (!tags.length) return '';
+    return '<div class="tag-row">' + tags.map(function (t) { return '<span class="tag">' + esc(t) + '</span>'; }).join('') + '</div>';
+  }
+
+  function renderToday() {
+    var pool = candidatePool();
+    var pick = state.dailyPick && state.dailyPick.date === todayISO() ? findOutfit(state.dailyPick.outfitId) : null;
+    var wornToday = state.history.some(function (h) { return h.date === todayISO() && pick && h.outfitId === pick.id; });
+
+    var filterHtml =
+      '<div class="section-title">Occasion</div>' + chipGroup('occasion', OCCASIONS, state.filters.occasion) +
+      '<div class="section-title">Season</div>' + chipGroup('season', SEASONS, state.filters.season);
+
+    if (!allOutfits().length) {
+      return filterHtml + '<div class="empty-state">' +
+        '<h3>No outfits yet</h3>' +
+        '<p>Add a few screenshots in the Library tab and I\'ll start suggesting a daily outfit.</p>' +
+        '<button class="btn btn-primary" id="go-library">+ Add outfits</button>' +
+        '</div>';
+    }
+    if (!pool.length) {
+      return filterHtml + '<div class="empty-state"><p>No outfits match these filters.</p></div>';
+    }
+    if (!pick) {
+      ensureTodayPick().then(render);
+      return filterHtml + '<div class="empty-state"><p>Loading today\'s pick&hellip;</p></div>';
+    }
+
+    return filterHtml +
+      '<div class="card">' +
+        '<div class="pick-image-wrap"><img src="' + pick.image + '" alt=""></div>' +
+        '<div class="outfit-name">' + esc(pick.name || 'Outfit') + '</div>' +
+        renderTags(pick) +
+        (wornToday ? '<div class="meta-line">&#10003; Worn today</div>' :
+          '<div class="meta-line">' + (pick.timesWorn ? 'Worn ' + pick.timesWorn + '&times; &middot; ' : 'Never worn &middot; ') +
+          (pick.lastWorn ? 'last on ' + formatDate(pick.lastWorn) : 'not logged yet') + '</div>') +
+        '<div class="btn-row">' +
+          '<button class="btn" id="shuffle-btn">&#128256; Shuffle</button>' +
+          '<button class="btn btn-primary" id="wear-btn"' + (wornToday ? ' disabled' : '') + '>' + (wornToday ? '&#10003; Worn' : '&#10003; Wear this') + '</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  function renderLibrary() {
+    var outfits = allOutfits();
+    var html = '<div class="top-actions"><h3>Your outfits (' + outfits.length + ')</h3><button class="icon-btn" id="add-outfit-btn">+ Add</button></div>';
+    if (!outfits.length) {
+      html += '<div class="empty-state"><p>No outfits saved yet.</p><button class="btn btn-primary" id="add-outfit-btn-2">+ Add your first outfit</button></div>';
+      return html;
+    }
+    html += '<div class="grid">' + outfits.map(function (o) {
+      return '<div class="outfit-card' + (o.archived ? ' archived' : '') + '" data-outfit-id="' + o.id + '">' +
+        '<button class="star" data-fav-id="' + o.id + '">' + (o.favorite ? '&#9733;' : '&#9734;') + '</button>' +
+        '<img src="' + o.image + '" alt="">' +
+        '<div class="info"><div class="name">' + esc(o.name || 'Outfit') + '</div>' + renderTags(o) + '</div>' +
+      '</div>';
+    }).join('') + '</div>';
+    html += '<div class="section-title">Backup</div>' +
+      '<div class="btn-row">' +
+        '<button class="btn" id="export-btn">Export JSON</button>' +
+        '<label class="btn" style="text-align:center;">Import JSON<input type="file" accept="application/json" id="import-input" style="display:none;"></label>' +
+      '</div>';
+    return html;
+  }
+
+  function renderHistory() {
+    if (!state.history.length) return '<div class="empty-state"><p>No outfits logged yet. Confirm a daily pick from the Today tab to start your history.</p></div>';
+    return '<div class="card">' + state.history.map(function (h) {
+      return '<div class="history-row">' +
+        '<img src="' + (h.image || '') + '" alt="">' +
+        '<div><div class="date">' + formatDate(h.date) + '</div><div class="name">' + esc(h.name || 'Outfit') + '</div></div>' +
+      '</div>';
+    }).join('') + '</div>';
+  }
+
+  function renderModal() {
+    var m = state.modal;
+    if (!m) return '';
+    if (m.mode === 'add') {
+      return '<div class="modal-backdrop" id="modal-backdrop">' +
+        '<div class="modal">' +
+          '<button class="modal-close" id="modal-close">&times;</button>' +
+          '<h2>Add outfit(s)</h2>' +
+          '<div class="field"><label>Screenshots</label><input class="file-input" type="file" accept="image/*" multiple id="modal-file-input">' +
+            (m.files.length ? '<div class="thumb-preview-row">' + m.files.map(function (f) { return '<img src="' + f + '">'; }).join('') + '</div>' : '') +
+          '</div>' +
+          '<div class="field"><label>Name (optional)</label><input class="input" id="modal-name" value="' + esc(m.name) + '" placeholder="e.g. Navy blazer + chinos"></div>' +
+          '<div class="field"><label>Occasion</label>' + chipGroup('modal-occasion', OCCASIONS, m.occasion) + '</div>' +
+          '<div class="field"><label>Season</label>' + chipGroup('modal-season', SEASONS, m.season) + '</div>' +
+          '<button class="btn btn-primary btn-full" id="modal-save">Save</button>' +
+        '</div>' +
+      '</div>';
+    }
+    var canEdit = !m.outfit.static;
+    return '<div class="modal-backdrop" id="modal-backdrop">' +
+      '<div class="modal">' +
+        '<button class="modal-close" id="modal-close">&times;</button>' +
+        '<h2>Edit outfit</h2>' +
+        '<div class="pick-image-wrap" style="aspect-ratio:1; margin-bottom:12px;"><img src="' + m.outfit.image + '" alt=""></div>' +
+        '<div class="field"><label>Name</label><input class="input" id="modal-name" value="' + esc(m.name) + '"' + (canEdit ? '' : ' disabled') + '></div>' +
+        '<div class="field"><label>Occasion</label>' + chipGroup('modal-occasion', OCCASIONS, m.occasion) + '</div>' +
+        '<div class="field"><label>Season</label>' + chipGroup('modal-season', SEASONS, m.season) + '</div>' +
+        '<div class="field"><label><input type="checkbox" id="modal-favorite"' + (m.favorite ? ' checked' : '') + '> Favorite</label></div>' +
+        '<div class="field"><label><input type="checkbox" id="modal-archived"' + (m.archived ? ' checked' : '') + '> Archived (hidden from picks)</label></div>' +
+        '<div class="btn-row">' +
+          (canEdit ? '<button class="btn" id="modal-delete">Delete</button>' : '<span class="meta-line">Bundled outfit &mdash; can\'t be deleted here</span>') +
+          '<button class="btn btn-primary" id="modal-save">Save</button>' +
+        '</div>' +
+      '</div>' +
+    '</div>';
+  }
+
+  function render() {
+    var app = document.getElementById('app');
+    var body = state.loading ? '<div class="empty-state"><p>Loading&hellip;</p></div>' :
+      state.view === 'today' ? renderToday() :
+      state.view === 'library' ? renderLibrary() : renderHistory();
+
+    app.innerHTML =
+      '<a class="backlink" href="index.html">&larr; Training Log</a>' +
+      '<h1 class="title">Outfit Picker</h1>' +
+      '<div class="tabs">' +
+        '<button class="tab' + (state.view === 'today' ? ' active' : '') + '" data-view="today">Today</button>' +
+        '<button class="tab' + (state.view === 'library' ? ' active' : '') + '" data-view="library">Library</button>' +
+        '<button class="tab' + (state.view === 'history' ? ' active' : '') + '" data-view="history">History</button>' +
+      '</div>' +
+      body + renderModal();
+
+    bindEvents(app);
+  }
+
+  function bindEvents(app) {
+    app.querySelectorAll('[data-view]').forEach(function (el) {
+      el.addEventListener('click', function () { state.view = el.getAttribute('data-view'); render(); });
+    });
+    var goLibrary = app.querySelector('#go-library');
+    if (goLibrary) goLibrary.addEventListener('click', function () { state.view = 'library'; render(); });
+
+    app.querySelectorAll('[data-chip-group]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var group = el.getAttribute('data-chip-group');
+        var val = el.getAttribute('data-chip-val');
+        if (group === 'occasion' || group === 'season') { toggleFilter(group, val); return; }
+        if (group === 'modal-occasion') { state.modal.occasion[val] = !state.modal.occasion[val]; render(); return; }
+        if (group === 'modal-season') { state.modal.season[val] = !state.modal.season[val]; render(); return; }
+      });
+    });
+
+    var shuffleBtn = app.querySelector('#shuffle-btn');
+    if (shuffleBtn) shuffleBtn.addEventListener('click', shufflePick);
+    var wearBtn = app.querySelector('#wear-btn');
+    if (wearBtn) wearBtn.addEventListener('click', wearToday);
+
+    var addBtn = app.querySelector('#add-outfit-btn'); if (addBtn) addBtn.addEventListener('click', openAddModal);
+    var addBtn2 = app.querySelector('#add-outfit-btn-2'); if (addBtn2) addBtn2.addEventListener('click', openAddModal);
+
+    app.querySelectorAll('[data-fav-id]').forEach(function (el) {
+      el.addEventListener('click', function (e) {
+        e.stopPropagation();
+        var outfit = findOutfit(el.getAttribute('data-fav-id'));
+        if (outfit) toggleFavorite(outfit);
+      });
+    });
+    app.querySelectorAll('[data-outfit-id]').forEach(function (el) {
+      el.addEventListener('click', function () {
+        var outfit = findOutfit(el.getAttribute('data-outfit-id'));
+        if (outfit) openEditModal(outfit);
+      });
+    });
+
+    var exportBtn = app.querySelector('#export-btn'); if (exportBtn) exportBtn.addEventListener('click', exportBackup);
+    var importInput = app.querySelector('#import-input'); if (importInput) importInput.addEventListener('change', function () { importBackup(importInput); });
+
+    var modalClose = app.querySelector('#modal-close'); if (modalClose) modalClose.addEventListener('click', closeModal);
+    var modalBackdrop = app.querySelector('#modal-backdrop');
+    if (modalBackdrop) modalBackdrop.addEventListener('click', function (e) { if (e.target === modalBackdrop) closeModal(); });
+    var modalFileInput = app.querySelector('#modal-file-input');
+    if (modalFileInput) modalFileInput.addEventListener('change', function () { handleFilesSelected(modalFileInput); });
+    var modalName = app.querySelector('#modal-name');
+    if (modalName) modalName.addEventListener('input', function () { state.modal.name = modalName.value; });
+    var modalFavorite = app.querySelector('#modal-favorite');
+    if (modalFavorite) modalFavorite.addEventListener('change', function () { state.modal.favorite = modalFavorite.checked; });
+    var modalArchived = app.querySelector('#modal-archived');
+    if (modalArchived) modalArchived.addEventListener('change', function () { state.modal.archived = modalArchived.checked; });
+    var modalDelete = app.querySelector('#modal-delete');
+    if (modalDelete) modalDelete.addEventListener('click', function () { deleteOutfit(state.modal.outfit); state.modal = null; render(); });
+    var modalSave = app.querySelector('#modal-save');
+    if (modalSave) modalSave.addEventListener('click', function () {
+      if (state.modal.mode === 'add') submitAddModal(); else submitEditModal();
+    });
+  }
+
+  function init() {
+    Promise.all([
+      fetch('outfits/manifest.json').then(function (r) { return r.ok ? r.json() : []; }).catch(function () { return []; }),
+      idbGetAll('outfits'),
+      idbGetAll('overrides'),
+      idbGetAll('history'),
+      idbGetAll('daily')
+    ]).then(function (results) {
+      var staticList = results[0].map(function (o) { return Object.assign({ occasion: [], season: [], favorite: false, archived: false, lastWorn: null, timesWorn: 0 }, o, { static: true }); });
+      var customList = results[1];
+      var overridesList = results[2];
+      var history = results[3];
+      var daily = results[4];
+
+      state.overrides = overridesList.reduce(function (a, o) { a[o.id] = o; return a; }, {});
+      state.outfits = staticList.concat(customList);
+      state.history = history.sort(function (a, b) { return b.date.localeCompare(a.date); });
+      var todayKey = todayISO();
+      state.dailyPick = daily.filter(function (d) { return d.date === todayKey; })[0] || null;
+      state.loading = false;
+      return ensureTodayPick();
+    }).then(render);
+  }
+
+  init();
+})();
+</script>
+</body>
+</html>
