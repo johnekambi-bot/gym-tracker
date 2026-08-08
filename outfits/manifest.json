@@ -208,5 +208,40 @@
     "name": "Tee + wide-leg brown trousers",
     "occasion": ["Casual"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-31",
+    "image": "outfits/images/outfit-31.jpg",
+    "name": "Tee + cream trousers + bandana",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-32",
+    "image": "outfits/images/outfit-32.jpg",
+    "name": "Chestnut polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-33",
+    "image": "outfits/images/outfit-33.jpg",
+    "name": "Olive polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-34",
+    "image": "outfits/images/outfit-34.jpg",
+    "name": "Linen jacket + beige tee + trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-35",
+    "image": "outfits/images/outfit-35.jpg",
+    "name": "Textured polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
   }
 ]
