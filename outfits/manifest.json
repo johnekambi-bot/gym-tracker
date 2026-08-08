@@ -278,5 +278,40 @@
     "name": "Tee + wide-leg beige trousers",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-41",
+    "image": "outfits/images/outfit-41.jpg",
+    "name": "Henley + wide-leg brown trousers",
+    "occasion": ["Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-42",
+    "image": "outfits/images/outfit-42.jpg",
+    "name": "Linen shirt + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-43",
+    "image": "outfits/images/outfit-43.jpg",
+    "name": "Plaid shirt jacket + tank + trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-44",
+    "image": "outfits/images/outfit-44.jpg",
+    "name": "Tee + cap + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-45",
+    "image": "outfits/images/outfit-45.jpg",
+    "name": "Henley + wide-leg grey trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
   }
 ]
