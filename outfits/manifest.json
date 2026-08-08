@@ -467,5 +467,33 @@
     "name": "Tee + cream wide-leg trousers",
     "occasion": ["Casual", "Date Night"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-68",
+    "image": "outfits/images/outfit-68.jpg",
+    "name": "Suede jacket + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-69",
+    "image": "outfits/images/outfit-69.jpg",
+    "name": "Varsity jacket + tee + jeans",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-70",
+    "image": "outfits/images/outfit-70.jpg",
+    "name": "Oversized long sleeve + pleated shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-71",
+    "image": "outfits/images/outfit-71.jpg",
+    "name": "Striped shirt + shorts + sandals",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
