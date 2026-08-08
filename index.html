@@ -81,6 +81,7 @@
   .tag { display: inline-flex; align-items: center; font-size: 11px; letter-spacing: 0.02em; padding: 3px 10px; border-radius: 6px; }
   .tag-accent { background: var(--color-accent-800); color: var(--color-accent-100); }
   .tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+  .tag-neutral { background: var(--color-neutral-800); color: var(--color-text); }
 
   .btn { display: inline-flex; align-items: center; justify-content: center; gap: 6px; cursor: pointer; text-decoration: none; font-family: var(--font-heading); font-weight: 500; font-size: 14px; line-height: 1.2; color: var(--color-text); background: transparent; border: 1px solid transparent; padding: var(--space-2) calc(var(--space-3) * 1.2); border-radius: var(--radius-md); }
   .btn svg { display: block; }
@@ -116,6 +117,8 @@
   .day-header .eyebrow { margin-bottom: 1px; }
   .day-header h2 { font-size: 20px; }
   .day-focus { font-size: 13px; opacity: 0.7; margin: 0 0 var(--space-3); }
+  .day-added { display: flex; align-items: center; gap: 5px; font-size: 12px; color: var(--color-accent-300); margin: -6px 0 var(--space-3); }
+  .day-added svg { flex-shrink: 0; }
   .day-note-card { margin-bottom: var(--space-3); border: 1px solid var(--color-accent-700); background: var(--color-surface); }
   .day-note-card .card-body { font-size: 13px; line-height: 1.5; opacity: 1; }
 
@@ -124,6 +127,10 @@
 
   .section-header { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; opacity: 0.5; margin: var(--space-4) 0 8px; }
   .section-header:first-child { margin-top: 0; }
+  .tier2-note { font-size: 12px; opacity: 0.6; font-style: italic; line-height: 1.5; margin: -4px 0 var(--space-3); }
+
+  .ex-superset { display: flex; align-items: baseline; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .ex-superset-text { font-size: 12px; opacity: 0.65; line-height: 1.4; }
 
   .ex-card { margin-bottom: var(--space-3); }
   .ex-tags { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
@@ -164,8 +171,9 @@
 (function () {
   "use strict";
 
-  var STORE_KEY = "gymTracker.sessions.v2";
-  var LEGACY_STORE_KEY = "gymTracker.sessions.v1";
+  var STORE_KEY = "gymTracker.sessions.v3";
+  var LEGACY_STORE_KEY_V2 = "gymTracker.sessions.v2";
+  var LEGACY_STORE_KEY_V1 = "gymTracker.sessions.v1";
 
   var ICONS = {
     back: '<path d="M224,128a8,8,0,0,1-8,8H59.31l58.35,58.34a8,8,0,0,1-11.32,11.32l-72-72a8,8,0,0,1,0-11.32l72-72a8,8,0,0,1,11.32,11.32L59.31,120H216A8,8,0,0,1,224,128Z"/>',
@@ -205,222 +213,245 @@
   }
 
   // ---------------------------------------------------------------------
-  // Program data
+  // Program data — v2, issued 8 Aug 2026, rev. B
   // ---------------------------------------------------------------------
+  var PROGRAM_VERSION = 'v2 rev. B';
+  var PROGRAM_ISSUED = '8 August 2026';
+
+  function slugify(name) {
+    return String(name).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+  }
+
   function buildProgram() {
     return [
-      { id: 'mon', label: 'Mon', dow: 1, title: 'Upper Strength', focus: 'Chest priority. Reload incline pressing conservatively.', dayNote: null, exercises: [
-        { name: 'Incline Barbell Press', setsReps: '5 sets x 5', rest: '2.5-3 min', weight: 'Top set 80kg x5, back-off 72kg x4-5 x3-4 sets', rule: '+2.5kg to top set when 5 clean reps @ RIR2 hit for 2 sessions', note: 'Warm up Bar x10, 60x5, 70x3 before top set. Do NOT jump back to 105kg.', reload: true },
-        { name: 'Weighted Pull-Ups', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top +25kg x8, back-off +20kg x8,8,7', rule: 'Add +2.5kg to top set once 8 clean reps hit at that weight', note: 'Not shoulder-restricted the same way as pressing — progress this one normally.' },
-        { name: 'Flat Dumbbell Press', setsReps: '3 x 8-10', rest: '90 sec', weight: '32kg', rule: '+2kg per hand only once 10,10,10 hit clean & pain-free', note: 'Reduced from your logged 42.5kg for the reload phase.', reload: true },
-        { name: 'Pec Deck', setsReps: '3 x 15', rest: '60 sec', weight: '40kg', rule: 'Increase 5kg once 15,15,15 easy', note: 'Drop-set the final set (drop 10kg, run ~12-15 more reps) — replaces a 4th set.' },
-        { name: 'Chest Supported Row (T-Bar)', setsReps: '3 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5kg once all 3 sets hit 10', note: 'Squeeze 1 sec at top each rep.' },
-        { name: 'Seated DB Shoulder Press', setsReps: '3 x 8-10', rest: '90 sec', weight: '18-20kg', rule: '+1-2kg per hand only once 10,10,10 hit clean & pain-free', note: 'Reduced from logged 30kg — overhead movement, be conservative.', reload: true },
-        { name: 'Cable Lateral Raise', setsReps: '3 x 12-15', rest: '60 sec', weight: '10kg', rule: '+2.5kg once 15 clean reps all 3 sets', note: 'Controlled tempo, no swinging.' },
-        { name: 'Overhead Cable Extension', setsReps: '3 x 10-12', rest: '60 sec', weight: '35kg', rule: '+2.5kg once 12,12,12 hit', note: 'Reduced slightly from 45kg — overhead position, ease back in.' },
-        { name: 'Hanging Leg Raise', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight', rule: 'Add ankle weight once 12 strict reps x3 easy', note: 'Control the descent, no swinging.' },
-      ]},
-      { id: 'tue', label: 'Tue', dow: 2, title: 'Lower Strength + Basketball PM', focus: 'AM session recommended — basketball in the evening.', dayNote: "Keep Tuesday's squat top set at RIR 2-3 (not RIR 0-1) so your legs aren't fried for the game. If it feels heavy that day (poor sleep, DOMS), autoregulate down 5-10% rather than grinding — protect the game.", exercises: [
-        { name: 'Back Squat', setsReps: '5 sets x 5', rest: '2.5-3 min', weight: 'Top set 140kg x5, back-off 120kg x5,5,5,5', rule: '+2.5-5kg to top set when 5 clean reps hit at RIR2', note: "Working toward 170kg top set — no rush, this isn't shoulder-limited." },
-        { name: 'Romanian Deadlift', setsReps: '4 x 8', rest: '2 min', weight: '100kg, alternate grip', rule: '+5kg once all 4 sets hit 8 clean', note: 'Hinge pattern, soft knees, bar close to legs.' },
-        { name: 'Leg Press', setsReps: '3 x 10', rest: '90 sec', weight: '280kg', rule: '+10-20kg once 10,10,10 easy', note: "Full range, don't lock knees hard at top." },
+      { id: 'mon', label: 'Mon', dow: 1, title: 'Upper Strength', focus: 'Chest + overhead press priority. Overhead now sits second, on your freshest shoulders.', added: '20 min incline treadmill after', dayNote: "Shoulder ladder correction: 20-22kg seated dumbbells put you at stage 3 (seated dumbbell, pronated grip) — not stage 1. Don't restart at landmine presses; hold at stage 3, progress by the reload rules below, and treat standing DB and barbell OHP as the next two months. Load increases are capped at 10% per week regardless of how good a session feels.", exercises: [
+        { name: 'Incline Barbell Press', setsReps: '5 x 5', rest: '2.5-3 min', weight: 'Top set 80kg x5, back-off 72kg x4-5', rule: '+2.5kg to top set once 5 clean reps @ RIR2 hit for 2 sessions', note: 'Warm up Bar x10, 60x5, 70x3 before top set. Do NOT jump back to 105kg.', reload: true },
+        { name: 'Seated DB Shoulder Press', setsReps: '3 x 8-10', rest: '90 sec', weight: '20-22kg/hand, pronated grip', rule: '+1-2kg/hand once 10,10,10 clean and pain-free for 2 sessions', note: 'Moved up from 6th to 2nd — your highest-risk lift now goes on fresh shoulders, not maximum fatigue. Sit tall, ribs down, don’t let the bar drift behind your ears.', reload: true },
+        { name: 'Weighted Pull-Ups', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top +25kg x8, back-off +20kg', rule: '+2.5kg to top set once 8 clean reps hit', note: 'Not shoulder-restricted — progress normally.' },
+        { name: 'Flat Dumbbell Press', setsReps: '3 x 8-10', rest: '90 sec', weight: '32kg/hand', rule: '+2kg/hand once 10,10,10 clean and pain-free', note: 'Reduced from logged 42.5kg for the reload phase.', reload: true },
+        { name: 'Chest Supported Row (T-Bar)', setsReps: '3 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5kg once all 3 sets hit 10', note: 'Squeeze 1 sec at the top of each rep.' },
+        { name: 'Cable Lateral Raise', setsReps: '3 x 12-15', rest: '60 sec', weight: '10kg', rule: '+2.5kg once 15 clean reps on all 3 sets', note: 'Controlled tempo, no swinging.', superset: 'Superset with Hanging Leg Raise — alternate straight through, 60 sec between rounds.' },
+        { name: 'Hanging Leg Raise', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight', rule: 'Add ankle weight once 12 strict reps x3 is easy', note: 'Control the descent, no swinging.', superset: 'Superset with Cable Lateral Raise — alternate straight through, 60 sec between rounds.' },
+        { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Face Pull', setsReps: '3 x 15', rest: '45 sec', weight: 'Light cable', rule: 'Reps and quality before load.', note: 'Makes cuff work three days a week — the safest thing to add on an overhead press day. Do NOT restore Pec Deck; chest volume was cut for recovery, not for time.' },
+      ], tier2Note: 'Spend spare time in order: a full 3 min rest on your incline and pull-up top sets first, then face pulls. Complete recovery between heavy sets in a deficit is worth more than any extra exercise.' },
+
+      { id: 'tue', label: 'Tue', dow: 2, title: 'Lower Strength', focus: 'Heaviest day of the week. No basketball, no cardio after — this session gets full recovery priority.', added: 'Nothing — protect this session', dayNote: null, exercises: [
+        { name: 'Back Squat', setsReps: '5 x 5', rest: '2.5-3 min', weight: 'Top set 140kg x5, back-off 120kg x5', rule: '+2.5-5kg to top set when 5 clean reps hit at RIR2', note: "Working toward 170kg — no rush, not shoulder-limited. If it feels heavy (poor sleep, DOMS), autoregulate down 5-10% rather than grinding — in a deficit, holding load is a win." },
+        { name: 'Romanian Deadlift', setsReps: '4 x 8', rest: '2 min', weight: '100kg, alternate grip', rule: '+5kg once all 4 sets hit 8 clean', note: 'Hinge pattern, soft knees, bar close to the legs.' },
+        { name: 'Leg Press', setsReps: '3 x 10', rest: '90 sec', weight: '280kg', rule: '+10-20kg once 10,10,10 is easy', note: "Full range, don't lock the knees hard at the top." },
         { name: 'Seated Leg Curl', setsReps: '3 x 12-15', rest: '60 sec', weight: '30kg', rule: 'Reps first to 15, then add weight', note: 'Slow eccentric.' },
-        { name: 'Standing Calf Raise', setsReps: '4 x 12-15', rest: '60 sec', weight: '40kg', rule: '+5kg once 15 reps all 4 sets', note: 'Pause 1 sec at stretch.' },
-        { name: 'Cable Crunch', setsReps: '3 x 15', rest: '60 sec', weight: '27kg', rule: '+2.5kg once 15,15,15 clean', note: "Round the spine, don't just hinge at hips." },
-      ]},
-      { id: 'wed', label: 'Wed', dow: 3, title: 'Arms', focus: 'Priority day. Same exercises, sharpened technique — no added volume.', dayNote: null, exercises: [
-        { section: 'BICEPS', name: 'Barbell Curl', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top set 42.5kg, back-off 40kg x8,8,7', rule: '+2.5kg to top set once 8 clean reps hit — build back toward 50kg', note: 'Strict form, no torso swing — flagged as your injury-prone lift.' },
-        { section: 'BICEPS', name: 'Incline DB Curl', setsReps: '3 x 10-12', rest: '90 sec', weight: '13kg', rule: '+1kg per hand once 12,12,12 hit', note: 'Full stretch at the bottom, control the negative.' },
-        { section: 'BICEPS', name: 'Cable Hammer Curl (rope)', setsReps: '3 x 12-15', rest: '60 sec', weight: '15kg', rule: '+2.5kg once 15,15,15 clean', note: "Drop-set the final set (drop ~5kg, run to failure) instead of a separate 'upstairs' exercise." },
-        { section: 'TRICEPS', name: 'Close Grip Bench Press', setsReps: '3 x 6-8', rest: '2 min', weight: '80kg', rule: '+2.5kg once 8,8,8 hit', note: 'Elbows tucked, bar to lower chest — not a shoulder-restricted lift.' },
-        { section: 'TRICEPS', name: 'Overhead Cable Extension', setsReps: '4 x 10-12', rest: '90 sec', weight: '28kg', rule: '+2.5kg once all 4 sets hit 12', note: 'Full stretch behind head — ease back in given overhead loading.' },
-        { section: 'TRICEPS', name: 'Rope Pushdown', setsReps: '3 x 12-15', rest: '60 sec', weight: '24.5kg', rule: '+2.5kg once 15,15,15 clean', note: "Drop-set the final set instead of a separate 'upstairs' variation." },
-        { section: 'ABS', name: 'Ab Wheel', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Bodyweight', rule: 'Roll out further once 12 controlled reps x3', note: 'Brace hard, no lower back sag.' },
-        { section: 'ABS', name: 'Cable Crunch', setsReps: '3 x 15', rest: '60 sec', weight: '27kg', rule: '+2.5kg once 15,15,15 clean', note: 'Same cue as Tuesday — spinal flexion.' },
-        { section: 'ABS', name: 'Hanging Leg Raise', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight', rule: 'Add ankle weight once easy', note: 'Slow and controlled.' },
-      ]},
-      { id: 'thu', label: 'Thu', dow: 4, title: 'Upper Hypertrophy', focus: 'Second chest/shoulder exposure of the week — keep pressing loads conservative here too.', dayNote: null, exercises: [
-        { name: 'Incline Dumbbell Press', setsReps: '4 x 8-10', rest: '90 sec', weight: '32-34kg', rule: '+2kg per hand only once 10 hit clean on all 4 sets, pain-free', note: 'Reduced from logged 40kg for the reload phase.', reload: true },
-        { name: 'Lat Pulldown / Single-Arm Pulldown Machine', setsReps: '4 x 10-12', rest: '90 sec', weight: '55kg', rule: '+5kg once 12 clean on all 4 sets', note: 'Alternate between the two machines week to week for variety.' },
-        { name: 'Seated Chest Press Machine', setsReps: '3 x 12', rest: '90 sec', weight: '65kg', rule: '+5kg once 12,12,12 hit clean & pain-free', note: 'Reduced from logged 75kg — pressing movement, reload conservatively.', reload: true },
-        { name: 'Single Arm Cable Row', setsReps: '3 x 12', rest: '60 sec', weight: '22.5kg', rule: '+2.5kg once 12,12,12 hit', note: 'Full stretch at start, squeeze at finish.' },
-        { name: 'DB Lateral Raise — Drop Set', setsReps: '3 rounds', rest: '60 sec', weight: '15kg -> 10kg -> 6kg', rule: 'Increase top weight only once 12 strict reps hit at 15kg', note: 'Run straight through the three weights each round, no rest between drops.' },
-        { name: 'Rear Delt Fly', setsReps: '3 x 15', rest: '60 sec', weight: '7.5kg', rule: '+2.5kg once 15,15,15 clean', note: 'Slight bend, squeeze shoulder blades.' },
-        { name: 'Seated Shoulder Press', setsReps: '3 x 8', rest: '90 sec', weight: '35-40kg', rule: '+2.5kg only once 8,8,8 hit clean & pain-free for 2 sessions', note: 'Reduced heavily from logged 60kg — the highest-risk lift on the list, be patient.', reload: true },
-        { name: 'Ab Wheel', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Bodyweight', rule: 'Roll out further once easy', note: 'Same as Wednesday.' },
-      ]},
-      { id: 'fri', label: 'Fri', dow: 5, title: 'Lower Hypertrophy', focus: 'Not shoulder-limited — progress these normally.', dayNote: null, exercises: [
-        { name: 'Hack Squat Machine', setsReps: '4 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5-10kg once 10 clean on all 4 sets', note: 'Alternate with Booty Builder Hack Squat every other week for variety.' },
-        { name: 'Hip Thrust Machine', setsReps: '3 x 10', rest: '90 sec', weight: '60kg', rule: '+5kg once 10,10,10 with perfect hamstring tension', note: '3 sec down, 1 sec pause at stretch.' },
-        { name: 'Bulgarian Split Squat', setsReps: '3 x 10 /leg', rest: '90 sec', weight: '17.5kg DBs', rule: '+2.5kg once 10/leg controlled on all 3 sets', note: 'Rear foot elevated, focus front leg drive.' },
+        { name: 'Standing Calf Raise', setsReps: '3 x 12-15', rest: '60 sec', weight: '40kg', rule: '+5kg once 15 reps on all 3 sets', note: 'Pause 1 sec at the stretch.', superset: 'Superset with Cable Crunch — calves and abs pair cleanly.' },
+        { name: 'Cable Crunch', setsReps: '3 x 15', rest: '60 sec', weight: '27kg', rule: '+2.5kg once 15,15,15 clean', note: "Round the spine — don't just hinge at the hips.", superset: 'Superset with Standing Calf Raise.' },
+        { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Standing Calf Raise — 4th set', setsReps: '1 x 12-15', rest: '60 sec', weight: '40kg', rule: 'Restores the original 4th set.', note: 'Calves tolerate volume well and cost nothing systemically.' },
+        { tier: 2, name: 'Back Extension', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight -> light plate', rule: 'Add a plate once 12 controlled reps x3 is easy', note: 'Posterior chain, zero shoulder involvement — complements the RDL rather than duplicating it. Squeeze at the top, no hyperextension.' },
+      ], tier2Note: "Full 3 min rest on your squat top sets comes first, then the extra calf set and back extension. If the squat felt heavy, stop after the rest — that's the point of the extra time on this day." },
+
+      { id: 'wed', label: 'Wed', dow: 3, title: 'Arms', focus: 'Lowest systemic-cost session of the week — bank the spare time for padel tonight.', added: 'Padel, PM', dayNote: null, exercises: [
+        { name: 'Barbell Curl', setsReps: '3 x 6-8', rest: '2 min', weight: 'Top set 42.5kg, back-off 40kg', rule: '+2.5kg to top set once 8 clean reps hit — build back toward 50kg', note: 'Cut from 4 to 3 sets. Strict form, no torso swing — your injury-prone lift, in a week that already includes +25kg weighted pull-ups and 100 EMOM reps.' },
+        { name: 'Close Grip Bench Press', setsReps: '3 x 6-8', rest: '2 min', weight: '80kg', rule: '+2.5kg once 8,8,8 hit', note: 'Elbows tucked, bar to lower chest. Not shoulder-restricted.' },
+        { name: 'Incline DB Curl', setsReps: '3 x 10-12', rest: '90 sec', weight: '13kg/hand', rule: '+1kg/hand once 12,12,12 hit', note: 'Full stretch at the bottom, control the negative.', superset: 'Superset with Overhead Cable Extension.' },
+        { name: 'Overhead Cable Extension', setsReps: '4 x 10-12', rest: '90 sec', weight: '28kg', rule: '+2.5kg once all 4 sets hit 12', note: 'The only overhead-stretch work in the week now — ease into the end range.', superset: 'Superset with Incline DB Curl.' },
+        { name: 'Cable Hammer Curl (rope)', setsReps: '3 x 12-15', rest: '60 sec', weight: '15kg', rule: '+2.5kg once 15,15,15 clean', note: 'Drop-set the final set (drop ~5kg, run to failure).', superset: 'Superset with Rope Pushdown.' },
+        { name: 'Rope Pushdown', setsReps: '3 x 12-15', rest: '60 sec', weight: '24.5kg', rule: '+2.5kg once 15,15,15 clean', note: 'Drop-set the final set.', superset: 'Superset with Cable Hammer Curl.' },
+        { name: 'Ab Wheel', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Bodyweight', rule: 'Roll out further once 12 controlled reps x3', note: 'Brace hard, no lower back sag. Only ab movement today — Cable Crunch and Hanging Leg Raise are cut here, both already covered elsewhere in the week.' },
+        { section: 'TIER 2 — SKIP ON PADEL WEEKS', tier: 2, name: 'EZ-Bar Reverse Curl', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Light-moderate', rule: 'Reps before load — this is a brachialis/forearm movement, not a strength lift.', note: 'Balances the heavy supinated curling and supports grip for pull-ups and RDLs. Strict, no swing.' },
+      ], tier2Note: "Bank the time, don't spend it — you're playing padel tonight. Run the session around 52 minutes and arrive on court fresh; only add this on weeks you're not playing." },
+
+      { id: 'thu', label: 'Thu', dow: 4, title: 'Upper Hypertrophy', focus: 'Back and delts. No overhead press today — this is now your only weekly rest from it.', added: '20 min incline treadmill after', dayNote: null, exercises: [
+        { name: 'Incline Dumbbell Press', setsReps: '4 x 8-10', rest: '90 sec', weight: '32-34kg/hand', rule: '+2kg/hand only once 10 hit clean on all 4 sets, pain-free', note: 'Reduced from logged 40kg. This is now your only chest work on Thursday.', reload: true },
+        { name: 'Lat Pulldown / Single-Arm Pulldown', setsReps: '4 x 10-12', rest: '90 sec', weight: '55kg', rule: '+5kg once 12 clean on all 4 sets', note: 'Alternate between the two machines week to week.' },
+        { name: 'Single Arm Cable Row', setsReps: '3 x 12', rest: '60 sec', weight: '22.5kg', rule: '+2.5kg once 12,12,12 hit', note: 'Full stretch at the start, squeeze at the finish.' },
+        { name: 'DB Lateral Raise — Drop Set', setsReps: '3 rounds', rest: '60 sec', weight: '15kg -> 10kg -> 6kg', rule: 'Increase top weight only once 12 strict reps hit at 15kg', note: 'Run straight through the three weights, no rest between drops.' },
+        { name: 'Rear Delt Fly', setsReps: '3 x 15', rest: '45-60 sec', weight: '7.5kg', rule: '+2.5kg once 15,15,15 clean', note: 'Slight bend, squeeze the shoulder blades.', superset: 'Giant set with Face Pull + Band External Rotation — run straight through as one block, ~6 min total.' },
+        { name: 'Face Pull', setsReps: '3 x 15', rest: '45-60 sec', weight: 'Light cable', rule: 'Reps and quality before load.', note: 'External rotation at the top — pull to the forehead, not the chin.', superset: 'Giant set with Rear Delt Fly + Band External Rotation.' },
+        { name: 'Band External Rotation', setsReps: '2 x 15 /arm', rest: '45-60 sec', weight: 'Light band', rule: 'Never progress to heavy — this is insurance, not training.', note: 'Elbow pinned to the ribs, slow both directions.', superset: 'Giant set with Rear Delt Fly + Face Pull.' },
+        { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Chest-Supported Row — wide, high elbow', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Moderate', rule: '+5kg once 15 clean on all 3 sets', note: 'Elbows flared to ~70°, pull to the upper ribs. Upper-back and rear-delt work, not lat work — doesn’t duplicate the pulldown. Chest support means no lower-back cost.' },
+        { tier: 2, name: 'Ab Wheel', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Bodyweight', rule: 'Roll out further once 12 controlled reps x3', note: 'Restored here. Brace hard, no lower back sag.' },
+      ], tier2Note: "Thursday has the most spare room by design — the core session runs short. Don't use it to restore Seated Chest Press; upper back is the right place to add on a delt day." },
+
+      { id: 'fri', label: 'Fri', dow: 5, title: 'Lower Hypertrophy', focus: 'Not shoulder-limited — progress these normally. Shortest session, least risk from added volume.', added: 'Nothing — cheat dinner tonight', dayNote: null, exercises: [
+        { name: 'Hack Squat Machine', setsReps: '4 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5-10kg once 10 clean on all 4 sets', note: 'Alternate with Booty Builder Hack Squat every other week.' },
+        { name: 'Hip Thrust Machine', setsReps: '3 x 10', rest: '90 sec', weight: '60kg', rule: '+5kg once 10,10,10 with full tension', note: '3 sec down, 1 sec pause at the stretch.' },
+        { name: 'Bulgarian Split Squat', setsReps: '3 x 10 /leg', rest: '90 sec', weight: '17.5kg DBs', rule: '+2.5kg once 10/leg controlled on all 3 sets', note: 'Rear foot elevated, drive through the front leg.' },
         { name: 'Lying Leg Curl', setsReps: '3 x 12-15', rest: '60 sec', weight: '30kg', rule: 'Reps first to 15, then add weight', note: 'Slow eccentric, full squeeze.' },
-        { name: 'Seated Calf Raise', setsReps: '4 x 15', rest: '60 sec', weight: '40kg', rule: '+5kg once 15 reps all 4 sets', note: '2 sec pause at bottom.' },
-        { name: 'Cable Woodchoppers', setsReps: '3 x 12 /side', rest: '60 sec', weight: 'Light-moderate cable', rule: 'Increase slowly — rotation quality over load', note: 'Controlled rotation through the core, not the arms.' },
-      ]},
-      { id: 'sat', label: 'Sat', dow: 6, title: 'Pull-Up EMOM + Recovery', focus: "Good idea — capped well below failure so it doesn't compromise Monday.", dayNote: 'EMOM Protocol: 5 pull-ups at the top of every minute, rest the remainder, for 20 minutes (100 reps total). Add 10-15 min of rotator cuff prehab after — band external rotations and face pulls, light weight, high reps. Optional: swap this slot for a class or light cardio on weeks you feel beat up.', exercises: [
-        { name: 'Pull-Up EMOM', setsReps: '5 reps every 60 sec x 20 rounds', rest: 'remainder of the minute', weight: 'Bodyweight', rule: 'Increase to 6 reps/min OR extend to 25 min only once 20 rounds at RIR 4+ (easy) for 2 consecutive weeks — progress duration or reps, not both at once', note: 'Alternate grip (neutral/mixed) week to week to vary stress from Monday\'s weighted pull-ups.', targetOverride: { sets: 20, reps: 5 } },
-      ]},
+        { name: 'Seated Calf Raise', setsReps: '3 x 15', rest: '60 sec', weight: '40kg', rule: '+5kg once 15 reps on all 3 sets', note: '2 sec pause at the bottom.', superset: 'Superset with Cable Woodchopper.' },
+        { name: 'Cable Woodchopper', setsReps: '3 x 12 /side', rest: '60 sec', weight: 'Light-moderate cable', rule: 'Increase slowly — rotation quality over load', note: 'Rotate through the core, not the arms.', superset: 'Superset with Seated Calf Raise.' },
+        { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Seated Calf Raise — 4th set', setsReps: '1 x 15', rest: '60 sec', weight: '40kg', rule: 'Restores the original 4 sets.', note: '2 sec pause at the bottom.' },
+        { tier: 2, name: 'Leg Extension', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Moderate', rule: 'Reps first to 15, then add weight', note: 'Direct quad work you have nowhere else — the hack squat and split squat are both compound. Pause 1 sec at full extension, control the descent.' },
+        { tier: 2, name: 'Hip Thrust — 4th set', setsReps: '1 x 10', rest: '90 sec', weight: '60kg', rule: 'Only if the session still feels fresh.', note: 'Drop this first if anything has to go.' },
+      ], tier2Note: "Friday carries the least risk from added volume — nothing here touches the shoulder. It's the best day to use the full time if you've got it." },
+
+      { id: 'sat', label: 'Sat', dow: 6, title: 'Pull-Up EMOM + Cuff Prehab', focus: '~35 min, capped well below failure.', added: null, dayNote: "This prehab block is the single best thing in your program — keep it after you're fully cleared, it's what prevents the next episode. Basketball is deferred 4-6 weeks: its shooting motion is a repeated overhead pattern under fatigue, exactly what you're protecting. Until your physio clears you, swap it for a second padel session or a class.", exercises: [
+        { name: 'Pull-Up EMOM', setsReps: '5 reps every 60 sec x 20 rounds', rest: 'remainder of the minute', weight: 'Bodyweight', rule: 'Increase to 6 reps/min OR extend to 25 min only once 20 rounds at RIR 4+ (easy) for 2 consecutive weeks — progress duration or reps, not both at once', note: "Alternate grip (neutral/mixed) week to week. ~14 sets of pulling — don't add back volume elsewhere on top of it.", targetOverride: { sets: 20, reps: 5 } },
+        { name: 'Band External Rotation', setsReps: '3 x 15 /arm', rest: '30 sec', weight: 'Light band', rule: 'Quality only — never load heavy.', note: 'Elbow at the ribs, slow both directions.' },
+        { name: 'Face Pull', setsReps: '3 x 15-20', rest: '30 sec', weight: 'Light cable', rule: 'Reps before load.', note: 'External rotation at the top of every rep.' },
+        { name: 'Scapular Wall Slide', setsReps: '2 x 10', rest: '30 sec', weight: 'Bodyweight', rule: 'Range before anything else.', note: 'Lower back flat to the wall, wrists in contact throughout.' },
+      ] },
     ];
   }
   var PROGRAM = buildProgram();
 
-  // Curated substitutes per exercise, keyed by "<dayId>-<index>". For
-  // Reload-flagged lifts, alternatives are chosen to keep shoulder stress
-  // equal to or lower than the prescribed exercise, not just "similar".
+  // Curated substitutes per exercise, keyed by "<dayId>-<slug of exercise
+  // name>". Reload-flagged lifts get alternatives chosen to keep shoulder
+  // stress equal to or lower than the prescribed exercise, not just "similar".
   var ALTERNATIVES = {
-    'mon-0': [ // Incline Barbell Press (Reload)
+    'mon-incline-barbell-press': [
       { name: 'Incline Machine Press', reason: 'Fixed path removes the stabilizer demand on the shoulder — safer if the bar path is what bothers you.' },
       { name: 'Flat Dumbbell Press (light)', reason: 'Dumbbells let each arm find its own path; drop the angle if it’s the incline position that’s aggravating it.' },
     ],
-    'mon-1': [ // Weighted Pull-Ups
-      { name: 'Weighted Lat Pulldown', reason: 'Same pulling pattern, easier to load precisely if the rack or a pull-up bar is taken.' },
-      { name: 'Assisted Pull-Up Machine', reason: 'Keeps the vertical pull pattern if grip or shoulder fatigue is limiting reps that day.' },
-    ],
-    'mon-2': [ // Flat Dumbbell Press (Reload)
-      { name: 'Seated Chest Press Machine', reason: 'Fixed path, easy to drop load slightly if pressing feels off that day.' },
-      { name: 'Incline DB Press (lighter)', reason: 'Different angle if it’s specifically the flat position that’s uncomfortable.' },
-    ],
-    'mon-3': [ // Pec Deck
-      { name: 'Cable Fly', reason: 'Same pattern with an adjustable angle if the pec deck is occupied.' },
-      { name: 'Dumbbell Fly', reason: 'No machine needed — easy to scale down if pressing already flared something up.' },
-    ],
-    'mon-4': [ // Chest Supported Row (T-Bar)
-      { name: 'Seated Cable Row', reason: 'Same horizontal pull if the T-bar station is taken.' },
-      { name: 'Single Arm Dumbbell Row', reason: 'No machine needed, and lets you check each side independently.' },
-    ],
-    'mon-5': [ // Seated DB Shoulder Press (Reload)
+    'mon-seated-db-shoulder-press': [
       { name: 'Landmine Press', reason: 'Angled path loads the front of the shoulder far less than straight overhead pressing.' },
       { name: 'Machine Shoulder Press (light)', reason: 'Fixed path if stabilizing dumbbells overhead is what’s bothering it.' },
     ],
-    'mon-6': [ // Cable Lateral Raise
+    'mon-weighted-pull-ups': [
+      { name: 'Weighted Lat Pulldown', reason: 'Same pulling pattern, easier to load precisely if the rack or a pull-up bar is taken.' },
+      { name: 'Assisted Pull-Up Machine', reason: 'Keeps the vertical pull pattern if grip or shoulder fatigue is limiting reps that day.' },
+    ],
+    'mon-flat-dumbbell-press': [
+      { name: 'Seated Chest Press Machine', reason: 'Fixed path, easy to drop load slightly if pressing feels off that day.' },
+      { name: 'Incline DB Press (lighter)', reason: 'Different angle if it’s specifically the flat position that’s uncomfortable.' },
+    ],
+    'mon-chest-supported-row-t-bar': [
+      { name: 'Seated Cable Row', reason: 'Same horizontal pull if the T-bar station is taken.' },
+      { name: 'Single Arm Dumbbell Row', reason: 'No machine needed, and lets you check each side independently.' },
+    ],
+    'mon-cable-lateral-raise': [
       { name: 'Dumbbell Lateral Raise', reason: 'No cable station needed.' },
       { name: 'Machine Lateral Raise', reason: 'Fixed path if the joint feels unstable at the top of the movement.' },
     ],
-    'mon-7': [ // Overhead Cable Extension
-      { name: 'Rope Pushdown', reason: 'Same muscle, no overhead arm position if that’s the uncomfortable part.' },
-      { name: 'Dumbbell Skull Crusher', reason: 'No cable station needed.' },
-    ],
-    'mon-8': [ // Hanging Leg Raise
+    'mon-hanging-leg-raise': [
       { name: 'Captain’s Chair Leg Raise', reason: 'Same movement, supported if grip or hang time is the limiter.' },
       { name: 'Lying Leg Raise', reason: 'No bar needed at all.' },
     ],
-    'tue-0': [ // Back Squat
+    'mon-face-pull': [
+      { name: 'Band External Rotation', reason: 'Same cuff-friendly rotation work, no cable station needed.' },
+      { name: 'Reverse Pec Deck Fly', reason: 'Similar rear-delt/scapular emphasis if the cable face-pull station is taken.' },
+    ],
+    'tue-back-squat': [
       { name: 'Hack Squat Machine', reason: 'Same pattern, fixed path if the rack is occupied or you want less spinal loading that day.' },
       { name: 'Leg Press', reason: 'Removes the balance and bracing demand if your lower back is cooked from the week.' },
     ],
-    'tue-1': [ // Romanian Deadlift
+    'tue-romanian-deadlift': [
       { name: 'Cable Pull-Through', reason: 'Same hip hinge with constant tension if the platform is taken.' },
       { name: 'Dumbbell RDL', reason: 'No bar needed — easier to manage if grip is the limiter.' },
     ],
-    'tue-2': [ // Leg Press
+    'tue-leg-press': [
       { name: 'Hack Squat Machine', reason: 'Similar quad-dominant pattern if the leg press is occupied.' },
       { name: 'Walking Lunges', reason: 'No machine needed at all.' },
     ],
-    'tue-3': [ // Seated Leg Curl
+    'tue-seated-leg-curl': [
       { name: 'Lying Leg Curl', reason: 'Same movement on a different machine.' },
       { name: 'Stability Ball Leg Curl', reason: 'Bodyweight option if no curl machine is free.' },
     ],
-    'tue-4': [ // Standing Calf Raise
+    'tue-standing-calf-raise': [
       { name: 'Seated Calf Raise', reason: 'Shifts emphasis to the soleus if the standing station is taken.' },
       { name: 'Leg Press Calf Raise', reason: 'Use the leg press platform if the calf machine is occupied.' },
     ],
-    'tue-5': [ // Cable Crunch
+    'tue-cable-crunch': [
       { name: 'Weighted Sit-Up', reason: 'No cable station needed.' },
       { name: 'Machine Crunch', reason: 'Fixed path alternative.' },
     ],
-    'wed-0': [ // Barbell Curl
+    'tue-back-extension': [
+      { name: 'Hyperextension (Roman Chair)', reason: 'Same posterior-chain pattern on different equipment if the back extension bench is taken.' },
+      { name: 'Good Morning (light)', reason: 'No bench needed, similar hip-hinge posterior chain work.' },
+    ],
+    'wed-barbell-curl': [
       { name: 'EZ-Bar Curl', reason: 'The angled grip is easier on the wrist and elbow if the straight bar is what’s bothering you.' },
       { name: 'Dumbbell Curl', reason: 'Lets each arm move independently if one side feels off — worth doing given this is flagged as your injury-prone lift.' },
     ],
-    'wed-1': [ // Incline DB Curl
-      { name: 'Standing DB Curl', reason: 'No bench needed if the incline bench is occupied.' },
-      { name: 'Cable Curl', reason: 'Constant tension alternative.' },
-    ],
-    'wed-2': [ // Cable Hammer Curl (rope)
-      { name: 'Dumbbell Hammer Curl', reason: 'No cable station needed.' },
-      { name: 'Cross-Body Hammer Curl', reason: 'Same neutral grip, no rope attachment required.' },
-    ],
-    'wed-3': [ // Close Grip Bench Press
+    'wed-close-grip-bench-press': [
       { name: 'Dumbbell Close Grip Press', reason: 'No bar or rack needed if the bench is occupied.' },
       { name: 'Dip Machine', reason: 'Similar pressing pattern on a fixed path.' },
     ],
-    'wed-4': [ // Overhead Cable Extension
+    'wed-incline-db-curl': [
+      { name: 'Standing DB Curl', reason: 'No bench needed if the incline bench is occupied.' },
+      { name: 'Cable Curl', reason: 'Constant tension alternative.' },
+    ],
+    'wed-overhead-cable-extension': [
       { name: 'Dumbbell Overhead Extension', reason: 'No cable station needed.' },
       { name: 'Rope Pushdown', reason: 'Same muscle without the overhead arm position.' },
     ],
-    'wed-5': [ // Rope Pushdown
+    'wed-cable-hammer-curl-rope': [
+      { name: 'Dumbbell Hammer Curl', reason: 'No cable station needed.' },
+      { name: 'Cross-Body Hammer Curl', reason: 'Same neutral grip, no rope attachment required.' },
+    ],
+    'wed-rope-pushdown': [
       { name: 'Straight Bar Pushdown', reason: 'Same station, different attachment if the rope is in use.' },
       { name: 'Dumbbell Kickback', reason: 'No cable station needed at all.' },
     ],
-    'wed-6': [ // Ab Wheel
+    'wed-ab-wheel': [
       { name: 'Plank Walkout', reason: 'No wheel needed.' },
       { name: 'Stability Ball Rollout', reason: 'Similar anti-extension demand with a gentler entry point.' },
     ],
-    'wed-7': [ // Cable Crunch
-      { name: 'Weighted Sit-Up', reason: 'No cable station needed.' },
-      { name: 'Machine Crunch', reason: 'Fixed path alternative.' },
+    'wed-ez-bar-reverse-curl': [
+      { name: 'Dumbbell Reverse Curl', reason: 'No EZ-bar needed.' },
+      { name: 'Cable Reverse Curl', reason: 'Constant tension alternative.' },
     ],
-    'wed-8': [ // Hanging Leg Raise
-      { name: 'Captain’s Chair Leg Raise', reason: 'Same movement, supported if grip or hang time is the limiter.' },
-      { name: 'Lying Leg Raise', reason: 'No bar needed at all.' },
-    ],
-    'thu-0': [ // Incline Dumbbell Press (Reload)
+    'thu-incline-dumbbell-press': [
       { name: 'Incline Machine Press', reason: 'Fixed path if stabilizing free dumbbells at this angle is what’s bothering the shoulder.' },
       { name: 'Low-Incline Smith Machine Press', reason: 'Guided bar path, easy to drop load precisely.' },
     ],
-    'thu-1': [ // Lat Pulldown / Single-Arm Pulldown Machine
+    'thu-lat-pulldown-single-arm-pulldown': [
       { name: 'Assisted Pull-Up Machine', reason: 'Same vertical pull if both pulldown stations are taken.' },
       { name: 'Straight-Arm Pulldown', reason: 'Different pull angle, less grip-dominant.' },
     ],
-    'thu-2': [ // Seated Chest Press Machine (Reload)
-      { name: 'Flat Dumbbell Press (light)', reason: 'If the machine is occupied — keep the load conservative given the reload phase.' },
-      { name: 'Push-Up (hands elevated)', reason: 'Bodyweight option, easy to regulate difficulty by hand height.' },
-    ],
-    'thu-3': [ // Single Arm Cable Row
+    'thu-single-arm-cable-row': [
       { name: 'Single Arm Dumbbell Row', reason: 'No cable station needed.' },
       { name: 'Chest Supported Row', reason: 'Bilateral alternative if the cable station is busy.' },
     ],
-    'thu-4': [ // DB Lateral Raise — Drop Set
+    'thu-db-lateral-raise-drop-set': [
       { name: 'Cable Lateral Raise Drop Set', reason: 'Same drop-set structure, easier to adjust weight quickly on a stack.' },
       { name: 'Machine Lateral Raise', reason: 'Fixed path if stability is an issue that day.' },
     ],
-    'thu-5': [ // Rear Delt Fly
+    'thu-rear-delt-fly': [
       { name: 'Reverse Pec Deck', reason: 'Fixed path if the free-weight version feels unstable.' },
       { name: 'Face Pull', reason: 'Also hits the rear delts and rotator cuff — doubles as prehab.' },
     ],
-    'thu-6': [ // Seated Shoulder Press (Reload — highest risk)
-      { name: 'Landmine Press', reason: 'Angled bar path loads the shoulder less than straight overhead — good substitute while this stays your highest-risk lift.' },
-      { name: 'Machine Shoulder Press (light)', reason: 'Fixed path if free dumbbells overhead are what’s aggravating it.' },
+    'thu-face-pull': [
+      { name: 'Band External Rotation', reason: 'Same cuff-friendly rotation work, no cable station needed.' },
+      { name: 'Reverse Pec Deck Fly', reason: 'Similar rear-delt/scapular emphasis if the cable station is taken.' },
     ],
-    'thu-7': [ // Ab Wheel
+    'thu-band-external-rotation': [
+      { name: 'Face Pull', reason: 'Overlapping cuff/rear-delt emphasis if the band station is occupied.' },
+      { name: 'Cable External Rotation', reason: 'Same movement pattern with constant cable tension instead of a band.' },
+    ],
+    'thu-chest-supported-row-wide-high-elbow': [
+      { name: 'Seated Cable Row (wide grip, elbows high)', reason: 'Same upper-back emphasis if the chest-support bench is taken.' },
+      { name: 'Reverse Pec Deck', reason: 'Rear-delt-dominant alternative, no row station needed.' },
+    ],
+    'thu-ab-wheel': [
       { name: 'Plank Walkout', reason: 'No wheel needed.' },
       { name: 'Stability Ball Rollout', reason: 'Similar anti-extension demand with a gentler entry point.' },
     ],
-    'fri-0': [ // Hack Squat Machine
+    'fri-hack-squat-machine': [
       { name: 'Booty Builder Hack Squat', reason: 'Already in your rotation — use it if the standard hack squat is occupied.' },
       { name: 'Leg Press', reason: 'Similar quad-dominant pattern if neither hack squat is free.' },
     ],
-    'fri-1': [ // Hip Thrust Machine
+    'fri-hip-thrust-machine': [
       { name: 'Barbell Hip Thrust', reason: 'Same movement, no machine needed.' },
       { name: 'Dumbbell Glute Bridge', reason: 'No bench or machine needed at all.' },
     ],
-    'fri-2': [ // Bulgarian Split Squat
+    'fri-bulgarian-split-squat': [
       { name: 'Walking Lunges', reason: 'No bench needed if they’re all taken.' },
       { name: 'Reverse Lunge', reason: 'Easier balance demand, same unilateral pattern.' },
     ],
-    'fri-3': [ // Lying Leg Curl
+    'fri-lying-leg-curl': [
       { name: 'Seated Leg Curl', reason: 'Same movement on a different machine.' },
       { name: 'Stability Ball Leg Curl', reason: 'No machine needed.' },
     ],
-    'fri-4': [ // Seated Calf Raise
+    'fri-seated-calf-raise': [
       { name: 'Standing Calf Raise', reason: 'Shifts emphasis to the gastrocnemius if the seated station is taken.' },
       { name: 'Leg Press Calf Raise', reason: 'Use the leg press platform instead.' },
     ],
-    'fri-5': [ // Cable Woodchoppers
+    'fri-cable-woodchopper': [
       { name: 'Dumbbell Woodchopper', reason: 'No cable station needed.' },
       { name: 'Pallof Press', reason: 'Anti-rotation alternative, easier to load on a busy cable station.' },
     ],
-    'sat-0': [ // Pull-Up EMOM
+    'fri-leg-extension': [
+      { name: 'Sissy Squat', reason: 'Bodyweight quad-dominant option if the leg extension machine is taken.' },
+      { name: 'Hack Squat (higher reps, light)', reason: 'Already in today’s session — bump reps and lighten the load instead of a new station.' },
+    ],
+    'sat-pull-up-emom': [
       { name: 'Lat Pulldown EMOM', reason: 'Same rep/rest structure if the pull-up bar is occupied or your grip is cooked from Monday.' },
       { name: 'Ring Row EMOM', reason: 'Bodyweight, easier to scale down mid-set if needed.' },
     ],
@@ -455,10 +486,10 @@
   // v1 keyed sessions flatly by date ({date: {dayId, ex}}), which meant two
   // different program days logged on the same calendar date would stomp on
   // each other's history. v2 nests by dayId first ({dayId: {date: {ex}}}) so
-  // that can't happen. This migrates any existing v1 data over once.
-  function migrateLegacySessions() {
+  // that can't happen.
+  function migrateV1ToV2() {
     var raw;
-    try { raw = localStorage.getItem(LEGACY_STORE_KEY); } catch (e) { raw = null; }
+    try { raw = localStorage.getItem(LEGACY_STORE_KEY_V1); } catch (e) { raw = null; }
     if (!raw) return {};
     var old;
     try { old = JSON.parse(raw); } catch (e) { return {}; }
@@ -471,12 +502,59 @@
     });
     return migrated;
   }
+
+  // v2 identified an exercise by its position within the day ("mon-0",
+  // "mon-1", ...). The v2 program update reordered, added, and cut
+  // exercises within days, which would have silently reassigned logged
+  // history to the wrong exercise under positional IDs. v3 identifies an
+  // exercise by a slug of its own name instead, so history survives a
+  // reorder or rename. This table is the one-time bridge: for each day,
+  // what v2's position N *was*, so it can be renamed to the v3 slug it
+  // corresponds to. `null` means that exercise was cut in v2 — its old
+  // data is left in place under the old key (not deleted, just no longer
+  // shown, since nothing in the current program matches it).
+  var LEGACY_V2_INDEX_TO_V3_SLUG = {
+    mon: ['incline-barbell-press', 'weighted-pull-ups', 'flat-dumbbell-press', null, 'chest-supported-row-t-bar', 'seated-db-shoulder-press', 'cable-lateral-raise', null, 'hanging-leg-raise'],
+    tue: ['back-squat', 'romanian-deadlift', 'leg-press', 'seated-leg-curl', 'standing-calf-raise', 'cable-crunch'],
+    wed: ['barbell-curl', 'incline-db-curl', 'cable-hammer-curl-rope', 'close-grip-bench-press', 'overhead-cable-extension', 'rope-pushdown', 'ab-wheel', null, null],
+    thu: ['incline-dumbbell-press', 'lat-pulldown-single-arm-pulldown', null, 'single-arm-cable-row', 'db-lateral-raise-drop-set', 'rear-delt-fly', null, 'ab-wheel'],
+    fri: ['hack-squat-machine', 'hip-thrust-machine', 'bulgarian-split-squat', 'lying-leg-curl', 'seated-calf-raise', 'cable-woodchopper'],
+    sat: ['pull-up-emom'],
+  };
+  function migrateV2ToV3(sessionsV2Shape) {
+    var out = {};
+    Object.keys(sessionsV2Shape || {}).forEach(function (dayId) {
+      var dayObj = sessionsV2Shape[dayId] || {};
+      var indexMap = LEGACY_V2_INDEX_TO_V3_SLUG[dayId] || [];
+      var outDay = {};
+      Object.keys(dayObj).forEach(function (date) {
+        var entry = dayObj[date] || { ex: {} };
+        var outEx = {};
+        Object.keys(entry.ex || {}).forEach(function (exId) {
+          var m = /^.+-(\d+)$/.exec(exId);
+          var newSlug = m ? indexMap[parseInt(m[1], 10)] : undefined;
+          var newKey = newSlug ? (dayId + '-' + newSlug) : exId;
+          outEx[newKey] = entry.ex[exId];
+        });
+        outDay[date] = { ex: outEx };
+      });
+      out[dayId] = outDay;
+    });
+    return out;
+  }
+
   function loadSessions() {
     try {
-      var raw = localStorage.getItem(STORE_KEY);
-      if (raw) return JSON.parse(raw);
+      var rawV3 = localStorage.getItem(STORE_KEY);
+      if (rawV3) return JSON.parse(rawV3);
     } catch (e) {}
-    return migrateLegacySessions();
+    var v2Shape = null;
+    try {
+      var rawV2 = localStorage.getItem(LEGACY_STORE_KEY_V2);
+      if (rawV2) v2Shape = JSON.parse(rawV2);
+    } catch (e) {}
+    if (!v2Shape) v2Shape = migrateV1ToV2();
+    return migrateV2ToV3(v2Shape);
   }
   function saveSessions() {
     try { localStorage.setItem(STORE_KEY, JSON.stringify(state.sessions)); } catch (e) {}
@@ -489,6 +567,7 @@
     sessions: loadSessions(),
     restTimers: {},
     showProtocol: false,
+    showChangelog: false,
     altOpen: {},
   };
 
@@ -580,6 +659,7 @@
   function openDay(id) { state.view = 'day'; state.activeDayId = id; state.activeDate = todayISO(); render(); }
   function goHome() { state.view = 'home'; render(); }
   function toggleProtocol() { state.showProtocol = !state.showProtocol; render(); }
+  function toggleChangelog() { state.showChangelog = !state.showChangelog; render(); }
   function moveDate(dayId, delta) {
     var list = getDateList(dayId);
     var idx = list.indexOf(state.activeDate);
@@ -617,6 +697,7 @@
       var rules = h('div', { class: 'protocol-rules' }, [
         h('div', {}, 'Progress ONLY when the full rep target is hit clean, at RIR 2+, with zero pain or pinching, for two consecutive sessions at that weight.'),
         h('div', {}, 'Any pain, pinching, or instability → drop 10% immediately and hold two sessions before retrying. Do not chase the old numbers on a timeline.'),
+        h('div', {}, 'Load increases are capped at 10% per week regardless of how good a session feels.'),
       ]);
       var tagLine = h('div', { style: { opacity: 0.7 } });
       tagLine.appendChild(document.createTextNode('Marked with a '));
@@ -626,6 +707,25 @@
       protoCard.appendChild(rules);
     }
     wrap.appendChild(protoCard);
+
+    var changeCard = h('div', { class: 'card protocol-card', style: { marginBottom: 'var(--space-4)' }, onClick: toggleChangelog });
+    changeCard.appendChild(h('div', { class: 'protocol-head' }, [
+      h('div', { class: 'card-title' }, 'What changed in ' + PROGRAM_VERSION),
+      h('span', { class: 'protocol-toggle' }, state.showChangelog ? 'Hide' : 'Show changes'),
+    ]));
+    changeCard.appendChild(h('div', { class: 'card-body' }, 'Issued ' + PROGRAM_ISSUED + ' — overhead pressing, chest volume, and your weekly schedule all shifted. Worth a read before your next Monday.'));
+    if (state.showChangelog) {
+      changeCard.appendChild(h('div', { class: 'protocol-rules' }, [
+        h('div', {}, 'Overhead press moved to Monday\'s 2nd slot — your highest-risk lift now goes on fresh shoulders, not maximum fatigue at the end of the session.'),
+        h('div', {}, 'One overhead press day, not two — Thursday\'s Seated Shoulder Press is cut entirely.'),
+        h('div', {}, 'Chest volume cut from 21 to 15 weekly sets — Pec Deck and Seated Chest Press Machine removed as redundant.'),
+        h('div', {}, 'Cuff prehab now twice weekly (Thursday giant set + Saturday) — it stays in permanently, even after you\'re cleared.'),
+        h('div', {}, 'Basketball deferred 4-6 weeks (shooting is a repeated overhead pattern under fatigue); padel moved to Wednesday evening instead.'),
+        h('div', {}, 'Supersets and giant sets added throughout to fit a tighter 60-70 min session without cutting stimulus.'),
+        h('div', {}, 'Tier 2 blocks added on most days — genuinely optional extra work, skippable without guilt whenever sleep was short or the shoulder is talking.'),
+      ]));
+    }
+    wrap.appendChild(changeCard);
 
     var todayDow = new Date().getDay();
     var list = h('div', { class: 'day-list' });
@@ -644,9 +744,10 @@
     var off = h('div', { class: 'card', style: { marginTop: 'var(--space-3)', opacity: 0.75 } });
     off.appendChild(h('div', { class: 'day-card-head' }, [ h('span', { class: 'tag tag-outline' }, 'Sun') ]));
     off.appendChild(h('div', { class: 'card-title', style: { fontSize: '14px' } }, 'Off'));
+    off.appendChild(h('div', { class: 'card-body' }, 'Genuine rest day — Monday is your heaviest upper session. Optional low-intensity class only (mobility, pilates, reformer, easy spin — never HIIT or overhead), plus a 60-75 min outdoor walk.'));
     wrap.appendChild(off);
 
-    wrap.appendChild(h('p', { class: 'footnote' }, "Program built June 2026 — reduced pressing loads reflect the rotator cuff reload phase, not a strength regression. Re-test true top sets once you're 3-4 clean, pain-free sessions in on each pressing lift."));
+    wrap.appendChild(h('p', { class: 'footnote' }, "Training Program " + PROGRAM_VERSION + " — issued " + PROGRAM_ISSUED + ". Reduced pressing loads reflect the rotator cuff reload phase, not a strength regression. Not medical advice — the reload protocol, overhead ladder, and return to basketball all defer to your physiotherapist."));
 
     var exportRow = h('div', { class: 'export-row' });
     var exportStatus = h('div', { class: 'export-status' });
@@ -710,6 +811,13 @@
 
     wrap.appendChild(h('p', { class: 'day-focus' }, day.focus));
 
+    if (day.added) {
+      wrap.appendChild(h('div', { class: 'day-added' }, [
+        h('span', { html: icon('plus', 11) }),
+        h('span', {}, day.added),
+      ]));
+    }
+
     if (day.dayNote) {
       wrap.appendChild(h('div', { class: 'card day-note-card' }, h('div', { class: 'card-body' }, day.dayNote)));
     }
@@ -729,19 +837,23 @@
     var session = state.sessions[day.id] && state.sessions[day.id][date];
     var lastSection = null;
     day.exercises.forEach(function (exd, i) {
-      var exId = day.id + '-' + i;
+      var exId = day.id + '-' + slugify(exd.name);
       var target = parseTarget(exd);
       var existing = session && session.ex && session.ex[exId];
       var rowsCount = Math.max(target.sets, existing ? existing.rows.length : target.sets);
 
       if (exd.section && exd.section !== lastSection) {
         wrap.appendChild(h('div', { class: 'section-header' }, exd.section));
+        if (day.tier2Note) {
+          wrap.appendChild(h('p', { class: 'tier2-note' }, day.tier2Note));
+        }
       }
       lastSection = exd.section || lastSection;
 
       var card = h('div', { class: 'card ex-card' });
       var tags = h('div', { class: 'ex-tags' }, [ h('span', { class: 'tag tag-outline' }, String(i + 1)) ]);
       if (exd.reload) tags.appendChild(h('span', { class: 'tag tag-accent' }, 'Reload'));
+      if (exd.tier === 2) tags.appendChild(h('span', { class: 'tag tag-neutral' }, 'Optional'));
       card.appendChild(tags);
       card.appendChild(h('div', { class: 'card-title' }, exd.name));
       card.appendChild(h('div', { class: 'card-meta' }, exd.setsReps + ' · rest ' + exd.rest + ' · ' + exd.weight));
@@ -750,6 +862,14 @@
       ruleEl.appendChild(document.createTextNode(exd.rule));
       card.appendChild(ruleEl);
       card.appendChild(h('div', { class: 'ex-note' }, exd.note));
+
+      if (exd.superset) {
+        var pairLabel = /giant set/i.test(exd.superset) ? 'Giant Set' : 'Superset';
+        card.appendChild(h('div', { class: 'ex-superset' }, [
+          h('span', { class: 'tag tag-neutral' }, pairLabel),
+          h('span', { class: 'ex-superset-text' }, exd.superset),
+        ]));
+      }
 
       if (readyToProgress(day.id, exId, target, date)) {
         card.appendChild(h('div', { class: 'ready-banner' }, [
@@ -869,7 +989,7 @@
     var day = PROGRAM.filter(function (d) { return d.id === state.activeDayId; })[0];
     if (!day) return;
     day.exercises.forEach(function (exd, i) {
-      var exId = day.id + '-' + i;
+      var exId = day.id + '-' + slugify(exd.name);
       var endAt = state.restTimers[exId];
       if (!endAt) return;
       var remaining = Math.max(0, Math.round((endAt - Date.now()) / 1000));
