@@ -131,5 +131,40 @@
     "name": "Striped shirt + white trousers",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-20",
+    "image": "outfits/images/outfit-20.jpg",
+    "name": "Zip polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-21",
+    "image": "outfits/images/outfit-21.jpg",
+    "name": "White polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-22",
+    "image": "outfits/images/outfit-22.jpg",
+    "name": "Patterned polo + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-23",
+    "image": "outfits/images/outfit-23.jpg",
+    "name": "Striped shirt + cream trousers",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-24",
+    "image": "outfits/images/outfit-24.jpg",
+    "name": "Ribbed polo + tailored trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
   }
 ]
