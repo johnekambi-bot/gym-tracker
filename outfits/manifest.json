@@ -187,5 +187,26 @@
     "name": "Ribbed polo + white trousers",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-28",
+    "image": "outfits/images/outfit-28.jpg",
+    "name": "Linen shirt + white trousers + panama hat",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-29",
+    "image": "outfits/images/outfit-29.jpg",
+    "name": "Burgundy-trim polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-30",
+    "image": "outfits/images/outfit-30.jpg",
+    "name": "Tee + wide-leg brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
   }
 ]
