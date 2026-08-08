@@ -397,5 +397,40 @@
     "name": "Striped shirt + shorts",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-58",
+    "image": "outfits/images/outfit-58.jpg",
+    "name": "Graphic tee + black trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-59",
+    "image": "outfits/images/outfit-59.jpg",
+    "name": "Tee + wide-leg black trousers + jacket",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-60",
+    "image": "outfits/images/outfit-60.jpg",
+    "name": "Knit polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-61",
+    "image": "outfits/images/outfit-61.jpg",
+    "name": "Striped tee + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-62",
+    "image": "outfits/images/outfit-62.jpg",
+    "name": "Varsity jacket + shirt + tie",
+    "occasion": ["Date Night"],
+    "season": ["Fall", "Winter"]
   }
 ]
