@@ -348,5 +348,33 @@
     "name": "Tee + olive trousers + overcoat",
     "occasion": ["Casual", "Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-51",
+    "image": "outfits/images/outfit-51.jpg",
+    "name": "Linen shirt + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-52",
+    "image": "outfits/images/outfit-52.jpg",
+    "name": "Shirt jacket + tee + wide-leg jeans",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-53",
+    "image": "outfits/images/outfit-53.jpg",
+    "name": "Hoodie + camo shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-54",
+    "image": "outfits/images/outfit-54.jpg",
+    "name": "Polo + wide-leg black trousers",
+    "occasion": ["Work", "Casual"],
+    "season": ["All-season"]
   }
 ]
