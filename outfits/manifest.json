@@ -103,5 +103,33 @@
     "name": "Pinstripe blazer + tie",
     "occasion": ["Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-16",
+    "image": "outfits/images/outfit-16.jpg",
+    "name": "Zip knit polo + brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-17",
+    "image": "outfits/images/outfit-17.jpg",
+    "name": "Striped shirt + drawstring trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-18",
+    "image": "outfits/images/outfit-18.jpg",
+    "name": "Navy DB blazer + tie",
+    "occasion": ["Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-19",
+    "image": "outfits/images/outfit-19.jpg",
+    "name": "Striped shirt + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
