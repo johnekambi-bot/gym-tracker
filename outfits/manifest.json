@@ -376,5 +376,26 @@
     "name": "Polo + wide-leg black trousers",
     "occasion": ["Work", "Casual"],
     "season": ["All-season"]
+  },
+  {
+    "id": "static-55",
+    "image": "outfits/images/outfit-55.jpg",
+    "name": "Polo + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-56",
+    "image": "outfits/images/outfit-56.jpg",
+    "name": "Tee + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-57",
+    "image": "outfits/images/outfit-57.jpg",
+    "name": "Striped shirt + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
