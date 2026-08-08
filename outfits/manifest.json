@@ -166,5 +166,26 @@
     "name": "Ribbed polo + tailored trousers",
     "occasion": ["Casual", "Date Night"],
     "season": ["All-season"]
+  },
+  {
+    "id": "static-25",
+    "image": "outfits/images/outfit-25.jpg",
+    "name": "Ribbed polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-26",
+    "image": "outfits/images/outfit-26.jpg",
+    "name": "Graphic tee + pleated trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-27",
+    "image": "outfits/images/outfit-27.jpg",
+    "name": "Ribbed polo + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
