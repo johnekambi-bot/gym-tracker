@@ -257,5 +257,26 @@
     "name": "Knit polo + white trousers",
     "occasion": ["Casual", "Date Night"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-38",
+    "image": "outfits/images/outfit-38.jpg",
+    "name": "Denim jacket + jeans",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-39",
+    "image": "outfits/images/outfit-39.jpg",
+    "name": "Polo + wide-leg grey trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-40",
+    "image": "outfits/images/outfit-40.jpg",
+    "name": "Tee + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
