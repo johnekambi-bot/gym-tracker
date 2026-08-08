@@ -432,5 +432,40 @@
     "name": "Varsity jacket + shirt + tie",
     "occasion": ["Date Night"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-63",
+    "image": "outfits/images/outfit-63.jpg",
+    "name": "Denim jacket + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-64",
+    "image": "outfits/images/outfit-64.jpg",
+    "name": "Tee + white wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-65",
+    "image": "outfits/images/outfit-65.jpg",
+    "name": "Tee + wide-leg trousers + tote",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-66",
+    "image": "outfits/images/outfit-66.jpg",
+    "name": "Shirt jacket + shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-67",
+    "image": "outfits/images/outfit-67.jpg",
+    "name": "Tee + cream wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
   }
 ]
