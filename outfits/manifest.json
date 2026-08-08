@@ -313,5 +313,40 @@
     "name": "Henley + wide-leg grey trousers",
     "occasion": ["Casual", "Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-46",
+    "image": "outfits/images/outfit-46.jpg",
+    "name": "Tee + tweed trousers + crossbody",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-47",
+    "image": "outfits/images/outfit-47.jpg",
+    "name": "Knit polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-48",
+    "image": "outfits/images/outfit-48.jpg",
+    "name": "Tee + wide-leg grey trousers + tote",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-49",
+    "image": "outfits/images/outfit-49.jpg",
+    "name": "Open shirt + cream wide-leg trousers",
+    "occasion": ["Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-50",
+    "image": "outfits/images/outfit-50.jpg",
+    "name": "Tee + olive trousers + overcoat",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
   }
 ]
