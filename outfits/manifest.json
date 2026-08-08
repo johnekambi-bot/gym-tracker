@@ -495,5 +495,33 @@
     "name": "Striped shirt + shorts + sandals",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-72",
+    "image": "outfits/images/outfit-72.jpg",
+    "name": "Zip jacket + tank + black trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-73",
+    "image": "outfits/images/outfit-73.jpg",
+    "name": "Leather jacket + tee + brown trousers",
+    "occasion": ["Date Night", "Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-74",
+    "image": "outfits/images/outfit-74.jpg",
+    "name": "Henley + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-75",
+    "image": "outfits/images/outfit-75.jpg",
+    "name": "V-neck sweater + wide-leg trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
   }
 ]
