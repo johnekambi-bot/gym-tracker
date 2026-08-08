@@ -33,5 +33,75 @@
     "name": "Shirt, tie + zip cardigan",
     "occasion": ["Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-06",
+    "image": "outfits/images/outfit-06.jpg",
+    "name": "Ribbed polo + pleated trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-07",
+    "image": "outfits/images/outfit-07.jpg",
+    "name": "Tee + wide-leg olive trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-08",
+    "image": "outfits/images/outfit-08.jpg",
+    "name": "Pinstripe double-breasted blazer",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-09",
+    "image": "outfits/images/outfit-09.jpg",
+    "name": "Beige blazer + pink trousers",
+    "occasion": ["Work"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-10",
+    "image": "outfits/images/outfit-10.jpg",
+    "name": "Striped shirt + cream trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-11",
+    "image": "outfits/images/outfit-11.jpg",
+    "name": "Green polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-12",
+    "image": "outfits/images/outfit-12.jpg",
+    "name": "White polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-13",
+    "image": "outfits/images/outfit-13.jpg",
+    "name": "Grey double-breasted suit",
+    "occasion": ["Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-14",
+    "image": "outfits/images/outfit-14.jpg",
+    "name": "Olive polo + cream trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-15",
+    "image": "outfits/images/outfit-15.jpg",
+    "name": "Pinstripe blazer + tie",
+    "occasion": ["Work"],
+    "season": ["Fall", "Winter"]
   }
 ]
