@@ -243,5 +243,19 @@
     "name": "Textured polo + white trousers",
     "occasion": ["Casual", "Date Night"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-36",
+    "image": "outfits/images/outfit-36.jpg",
+    "name": "Tee + wide-leg brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-37",
+    "image": "outfits/images/outfit-37.jpg",
+    "name": "Knit polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
   }
 ]
