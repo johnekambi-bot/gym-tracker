@@ -1,1 +1,37 @@
-[]
+[
+  {
+    "id": "static-01",
+    "image": "outfits/images/outfit-01.jpg",
+    "name": "Graphic tee + green trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-02",
+    "image": "outfits/images/outfit-02.jpg",
+    "name": "Knit polo + wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-03",
+    "image": "outfits/images/outfit-03.jpg",
+    "name": "Cardigan + tank + sweats",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-04",
+    "image": "outfits/images/outfit-04.jpg",
+    "name": "Open-collar linen suit",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-05",
+    "image": "outfits/images/outfit-05.jpg",
+    "name": "Shirt, tie + zip cardigan",
+    "occasion": ["Work"],
+    "season": ["Fall", "Winter"]
+  }
+]
