@@ -628,5 +628,40 @@
     "name": "Striped shirt + tank + olive trousers",
     "occasion": ["Casual"],
     "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-91",
+    "image": "outfits/images/outfit-91.jpg",
+    "name": "Striped shirt + tank + denim shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-92",
+    "image": "outfits/images/outfit-92.jpg",
+    "name": "Tee + white wide-leg jeans",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-93",
+    "image": "outfits/images/outfit-93.jpg",
+    "name": "Open linen shirt + wide-leg trousers",
+    "occasion": ["Date Night", "Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-94",
+    "image": "outfits/images/outfit-94.jpg",
+    "name": "Polo + wide-leg trousers",
+    "occasion": ["Work", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-95",
+    "image": "outfits/images/outfit-95.jpg",
+    "name": "Oversized tee + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
   }
 ]
