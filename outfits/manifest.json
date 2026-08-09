@@ -1,0 +1,681 @@
+[
+  {
+    "id": "static-01",
+    "image": "outfits/images/outfit-01.jpg",
+    "name": "Graphic tee + green trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-02",
+    "image": "outfits/images/outfit-02.jpg",
+    "name": "Knit polo + wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-03",
+    "image": "outfits/images/outfit-03.jpg",
+    "name": "Cardigan + tank + sweats",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-04",
+    "image": "outfits/images/outfit-04.jpg",
+    "name": "Open-collar linen suit",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-05",
+    "image": "outfits/images/outfit-05.jpg",
+    "name": "Shirt, tie + zip cardigan",
+    "occasion": ["Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-06",
+    "image": "outfits/images/outfit-06.jpg",
+    "name": "Ribbed polo + pleated trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-07",
+    "image": "outfits/images/outfit-07.jpg",
+    "name": "Tee + wide-leg olive trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-08",
+    "image": "outfits/images/outfit-08.jpg",
+    "name": "Pinstripe double-breasted blazer",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-09",
+    "image": "outfits/images/outfit-09.jpg",
+    "name": "Beige blazer + pink trousers",
+    "occasion": ["Work"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-10",
+    "image": "outfits/images/outfit-10.jpg",
+    "name": "Striped shirt + cream trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-11",
+    "image": "outfits/images/outfit-11.jpg",
+    "name": "Green polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-12",
+    "image": "outfits/images/outfit-12.jpg",
+    "name": "White polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-13",
+    "image": "outfits/images/outfit-13.jpg",
+    "name": "Grey double-breasted suit",
+    "occasion": ["Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-14",
+    "image": "outfits/images/outfit-14.jpg",
+    "name": "Olive polo + cream trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-15",
+    "image": "outfits/images/outfit-15.jpg",
+    "name": "Pinstripe blazer + tie",
+    "occasion": ["Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-16",
+    "image": "outfits/images/outfit-16.jpg",
+    "name": "Zip knit polo + brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-17",
+    "image": "outfits/images/outfit-17.jpg",
+    "name": "Striped shirt + drawstring trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-18",
+    "image": "outfits/images/outfit-18.jpg",
+    "name": "Navy DB blazer + tie",
+    "occasion": ["Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-19",
+    "image": "outfits/images/outfit-19.jpg",
+    "name": "Striped shirt + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-20",
+    "image": "outfits/images/outfit-20.jpg",
+    "name": "Zip polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-21",
+    "image": "outfits/images/outfit-21.jpg",
+    "name": "White polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-22",
+    "image": "outfits/images/outfit-22.jpg",
+    "name": "Patterned polo + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-23",
+    "image": "outfits/images/outfit-23.jpg",
+    "name": "Striped shirt + cream trousers",
+    "occasion": ["Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-24",
+    "image": "outfits/images/outfit-24.jpg",
+    "name": "Ribbed polo + tailored trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-25",
+    "image": "outfits/images/outfit-25.jpg",
+    "name": "Ribbed polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-26",
+    "image": "outfits/images/outfit-26.jpg",
+    "name": "Graphic tee + pleated trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-27",
+    "image": "outfits/images/outfit-27.jpg",
+    "name": "Ribbed polo + white trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-28",
+    "image": "outfits/images/outfit-28.jpg",
+    "name": "Linen shirt + white trousers + panama hat",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-29",
+    "image": "outfits/images/outfit-29.jpg",
+    "name": "Burgundy-trim polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-30",
+    "image": "outfits/images/outfit-30.jpg",
+    "name": "Tee + wide-leg brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-31",
+    "image": "outfits/images/outfit-31.jpg",
+    "name": "Tee + cream trousers + bandana",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-32",
+    "image": "outfits/images/outfit-32.jpg",
+    "name": "Chestnut polo + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-33",
+    "image": "outfits/images/outfit-33.jpg",
+    "name": "Olive polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-34",
+    "image": "outfits/images/outfit-34.jpg",
+    "name": "Linen jacket + beige tee + trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-35",
+    "image": "outfits/images/outfit-35.jpg",
+    "name": "Textured polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-36",
+    "image": "outfits/images/outfit-36.jpg",
+    "name": "Tee + wide-leg brown trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-37",
+    "image": "outfits/images/outfit-37.jpg",
+    "name": "Knit polo + white trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-38",
+    "image": "outfits/images/outfit-38.jpg",
+    "name": "Denim jacket + jeans",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-39",
+    "image": "outfits/images/outfit-39.jpg",
+    "name": "Polo + wide-leg grey trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-40",
+    "image": "outfits/images/outfit-40.jpg",
+    "name": "Tee + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-41",
+    "image": "outfits/images/outfit-41.jpg",
+    "name": "Henley + wide-leg brown trousers",
+    "occasion": ["Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-42",
+    "image": "outfits/images/outfit-42.jpg",
+    "name": "Linen shirt + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-43",
+    "image": "outfits/images/outfit-43.jpg",
+    "name": "Plaid shirt jacket + tank + trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-44",
+    "image": "outfits/images/outfit-44.jpg",
+    "name": "Tee + cap + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-45",
+    "image": "outfits/images/outfit-45.jpg",
+    "name": "Henley + wide-leg grey trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-46",
+    "image": "outfits/images/outfit-46.jpg",
+    "name": "Tee + tweed trousers + crossbody",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-47",
+    "image": "outfits/images/outfit-47.jpg",
+    "name": "Knit polo + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-48",
+    "image": "outfits/images/outfit-48.jpg",
+    "name": "Tee + wide-leg grey trousers + tote",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-49",
+    "image": "outfits/images/outfit-49.jpg",
+    "name": "Open shirt + cream wide-leg trousers",
+    "occasion": ["Date Night"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-50",
+    "image": "outfits/images/outfit-50.jpg",
+    "name": "Tee + olive trousers + overcoat",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-51",
+    "image": "outfits/images/outfit-51.jpg",
+    "name": "Linen shirt + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-52",
+    "image": "outfits/images/outfit-52.jpg",
+    "name": "Shirt jacket + tee + wide-leg jeans",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-53",
+    "image": "outfits/images/outfit-53.jpg",
+    "name": "Hoodie + camo shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-54",
+    "image": "outfits/images/outfit-54.jpg",
+    "name": "Polo + wide-leg black trousers",
+    "occasion": ["Work", "Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-55",
+    "image": "outfits/images/outfit-55.jpg",
+    "name": "Polo + wide-leg beige trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-56",
+    "image": "outfits/images/outfit-56.jpg",
+    "name": "Tee + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-57",
+    "image": "outfits/images/outfit-57.jpg",
+    "name": "Striped shirt + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-58",
+    "image": "outfits/images/outfit-58.jpg",
+    "name": "Graphic tee + black trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-59",
+    "image": "outfits/images/outfit-59.jpg",
+    "name": "Tee + wide-leg black trousers + jacket",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-60",
+    "image": "outfits/images/outfit-60.jpg",
+    "name": "Knit polo + cream trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-61",
+    "image": "outfits/images/outfit-61.jpg",
+    "name": "Striped tee + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-62",
+    "image": "outfits/images/outfit-62.jpg",
+    "name": "Varsity jacket + shirt + tie",
+    "occasion": ["Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-63",
+    "image": "outfits/images/outfit-63.jpg",
+    "name": "Denim jacket + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-64",
+    "image": "outfits/images/outfit-64.jpg",
+    "name": "Tee + white wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-65",
+    "image": "outfits/images/outfit-65.jpg",
+    "name": "Tee + wide-leg trousers + tote",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-66",
+    "image": "outfits/images/outfit-66.jpg",
+    "name": "Shirt jacket + shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-67",
+    "image": "outfits/images/outfit-67.jpg",
+    "name": "Tee + cream wide-leg trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-68",
+    "image": "outfits/images/outfit-68.jpg",
+    "name": "Suede jacket + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-69",
+    "image": "outfits/images/outfit-69.jpg",
+    "name": "Varsity jacket + tee + jeans",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-70",
+    "image": "outfits/images/outfit-70.jpg",
+    "name": "Oversized long sleeve + pleated shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-71",
+    "image": "outfits/images/outfit-71.jpg",
+    "name": "Striped shirt + shorts + sandals",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-72",
+    "image": "outfits/images/outfit-72.jpg",
+    "name": "Zip jacket + tank + black trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-73",
+    "image": "outfits/images/outfit-73.jpg",
+    "name": "Leather jacket + tee + brown trousers",
+    "occasion": ["Date Night", "Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-74",
+    "image": "outfits/images/outfit-74.jpg",
+    "name": "Henley + wide-leg black trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-75",
+    "image": "outfits/images/outfit-75.jpg",
+    "name": "V-neck sweater + wide-leg trousers",
+    "occasion": ["Casual", "Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-76",
+    "image": "outfits/images/outfit-76.jpg",
+    "name": "Henley + wide-leg black trousers + cap",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-77",
+    "image": "outfits/images/outfit-77.jpg",
+    "name": "Crewneck sweater + brown trousers",
+    "occasion": ["Work", "Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-78",
+    "image": "outfits/images/outfit-78.jpg",
+    "name": "V-neck tee + high-waisted trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-79",
+    "image": "outfits/images/outfit-79.jpg",
+    "name": "Crewneck + tee + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-80",
+    "image": "outfits/images/outfit-80.jpg",
+    "name": "Ribbed sweater + cream trousers",
+    "occasion": ["Date Night", "Work"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-81",
+    "image": "outfits/images/outfit-81.jpg",
+    "name": "Wool jacket + tee + black trousers",
+    "occasion": ["Work", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-82",
+    "image": "outfits/images/outfit-82.jpg",
+    "name": "Linen shirt + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-83",
+    "image": "outfits/images/outfit-83.jpg",
+    "name": "Sweatshirt + tied-waist trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-84",
+    "image": "outfits/images/outfit-84.jpg",
+    "name": "Bomber jacket + tank + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-85",
+    "image": "outfits/images/outfit-85.jpg",
+    "name": "Zip jacket + tee + tan trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-86",
+    "image": "outfits/images/outfit-86.jpg",
+    "name": "Tee + tan wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-87",
+    "image": "outfits/images/outfit-87.jpg",
+    "name": "Tee + black wide-leg trousers + cap",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-88",
+    "image": "outfits/images/outfit-88.jpg",
+    "name": "White tee + black wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-89",
+    "image": "outfits/images/outfit-89.jpg",
+    "name": "Shirt jacket + cream wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-90",
+    "image": "outfits/images/outfit-90.jpg",
+    "name": "Striped shirt + tank + olive trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-91",
+    "image": "outfits/images/outfit-91.jpg",
+    "name": "Striped shirt + tank + denim shorts",
+    "occasion": ["Casual"],
+    "season": ["Summer"]
+  },
+  {
+    "id": "static-92",
+    "image": "outfits/images/outfit-92.jpg",
+    "name": "Tee + white wide-leg jeans",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-93",
+    "image": "outfits/images/outfit-93.jpg",
+    "name": "Open linen shirt + wide-leg trousers",
+    "occasion": ["Date Night", "Casual"],
+    "season": ["Spring", "Summer"]
+  },
+  {
+    "id": "static-94",
+    "image": "outfits/images/outfit-94.jpg",
+    "name": "Polo + wide-leg trousers",
+    "occasion": ["Work", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-95",
+    "image": "outfits/images/outfit-95.jpg",
+    "name": "Oversized tee + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-96",
+    "image": "outfits/images/outfit-96.jpg",
+    "name": "Denim shirt + pinstripe trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Spring"]
+  },
+  {
+    "id": "static-97",
+    "image": "outfits/images/outfit-97.jpg",
+    "name": "Striped shirt + tank + dark denim",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  }
+]
