@@ -558,5 +558,40 @@
     "name": "Ribbed sweater + cream trousers",
     "occasion": ["Date Night", "Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-81",
+    "image": "outfits/images/outfit-81.jpg",
+    "name": "Wool jacket + tee + black trousers",
+    "occasion": ["Work", "Date Night"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-82",
+    "image": "outfits/images/outfit-82.jpg",
+    "name": "Linen shirt + tank + wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-83",
+    "image": "outfits/images/outfit-83.jpg",
+    "name": "Sweatshirt + tied-waist trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-84",
+    "image": "outfits/images/outfit-84.jpg",
+    "name": "Bomber jacket + tank + black trousers",
+    "occasion": ["Casual", "Date Night"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-85",
+    "image": "outfits/images/outfit-85.jpg",
+    "name": "Zip jacket + tee + tan trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
   }
 ]
