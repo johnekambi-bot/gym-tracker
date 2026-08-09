@@ -523,5 +523,40 @@
     "name": "V-neck sweater + wide-leg trousers",
     "occasion": ["Casual", "Work"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-76",
+    "image": "outfits/images/outfit-76.jpg",
+    "name": "Henley + wide-leg black trousers + cap",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-77",
+    "image": "outfits/images/outfit-77.jpg",
+    "name": "Crewneck sweater + brown trousers",
+    "occasion": ["Work", "Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-78",
+    "image": "outfits/images/outfit-78.jpg",
+    "name": "V-neck tee + high-waisted trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-79",
+    "image": "outfits/images/outfit-79.jpg",
+    "name": "Crewneck + tee + shorts",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-80",
+    "image": "outfits/images/outfit-80.jpg",
+    "name": "Ribbed sweater + cream trousers",
+    "occasion": ["Date Night", "Work"],
+    "season": ["Fall", "Winter"]
   }
 ]
