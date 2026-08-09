@@ -593,5 +593,40 @@
     "name": "Zip jacket + tee + tan trousers",
     "occasion": ["Casual"],
     "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-86",
+    "image": "outfits/images/outfit-86.jpg",
+    "name": "Tee + tan wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-87",
+    "image": "outfits/images/outfit-87.jpg",
+    "name": "Tee + black wide-leg trousers + cap",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-88",
+    "image": "outfits/images/outfit-88.jpg",
+    "name": "White tee + black wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["All-season"]
+  },
+  {
+    "id": "static-89",
+    "image": "outfits/images/outfit-89.jpg",
+    "name": "Shirt jacket + cream wide-leg trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Winter"]
+  },
+  {
+    "id": "static-90",
+    "image": "outfits/images/outfit-90.jpg",
+    "name": "Striped shirt + tank + olive trousers",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Summer"]
   }
 ]
