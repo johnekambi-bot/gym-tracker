@@ -663,5 +663,19 @@
     "name": "Oversized tee + wide-leg trousers",
     "occasion": ["Casual"],
     "season": ["Spring", "Fall"]
+  },
+  {
+    "id": "static-96",
+    "image": "outfits/images/outfit-96.jpg",
+    "name": "Denim shirt + pinstripe trousers",
+    "occasion": ["Casual"],
+    "season": ["Fall", "Spring"]
+  },
+  {
+    "id": "static-97",
+    "image": "outfits/images/outfit-97.jpg",
+    "name": "Striped shirt + tank + dark denim",
+    "occasion": ["Casual"],
+    "season": ["Spring", "Fall"]
   }
 ]
