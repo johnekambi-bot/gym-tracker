@@ -254,7 +254,7 @@
 
       { id: 'wed', label: 'Wed', dow: 3, title: 'Arms', focus: 'Main arm session — heavy compound first, then supersets to failure. With the Thursday finisher and the Saturday pump that is three arm hits a week.', added: null, dayNote: null, exercises: [
         { targets: ['40','32.5'], name: 'Barbell Curl', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top 40kg, back-offs 32.5kg', rule: '+2.5kg to top set once 8 clean twice — build back toward 50kg', note: 'Back to 4 sets — arms are the priority. 40kg x8 for six weeks means the top set has to move. Final back-off set: strip 10kg and rep to failure. Strict, no torso swing — swap to the EZ-bar the moment the elbow talks.' },
-        { history: ['wed-close-grip-bench-press'], targets: ['27.5'], name: 'Close Grip Dumbbell Press', setsReps: '3 x 6-8', rest: '2 min', weight: '25kg/hand', rule: '+2.5kg/hand once 8,8,8 hit', note: 'You press dumbbells here, not the bar. 25kg x 8,8,8 since August with no jump, so 27.5kg/hand is the target. Log the weight per dumbbell (the 30 Sep entry of 60 with no reps is ignored). Elbows tucked, press the dumbbells together at the top. Last set to failure.' },
+        { targets: ['60'], name: 'Close Grip Bench Press', setsReps: '3 x 6-8', rest: '2 min', weight: '60kg (total bar weight)', rule: '+2.5kg once 8,8,8 hit', note: 'Barbell, as on 30 Sep (60kg, no reps entered — log reps this time so progression can track). The 25kg entries from August to early September were dumbbells, so ignore those numbers here. Elbows tucked, bar to lower chest. Last set to failure with the safeties set.' },
         { name: 'Incline DB Curl', setsReps: '3 x 10-12', rest: '90 sec', weight: '15kg/hand', rule: '+1-2kg/hand once 12,12,12 hit', note: 'Full stretch at the bottom, control the negative. Last set: to failure, then 3-5 half-reps in the bottom stretch (lengthened partials).', superset: 'Superset with Overhead Cable Extension.' },
         { name: 'Overhead Cable Extension', setsReps: '4 x 10-12', rest: '90 sec', weight: '50kg', rule: '+2.5kg once all 4 sets hit 12', note: 'Ease into the end range — overhead position. Last set: to 0-1 RIR, then 3-5 half-reps in the stretch if the elbow is quiet.', superset: 'Superset with Incline DB Curl.' },
         { name: 'Cable Hammer Curl (rope)', setsReps: '3 x 12-15', rest: '60 sec', weight: '35kg', rule: '+2.5kg once 15,15,15 clean', note: 'Drop-set the final set (drop ~5kg, take it to 0-1 RIR).', superset: 'Superset with Rope Pushdown.' },
@@ -489,10 +489,6 @@
       { name: 'Sissy Squat', reason: 'Bodyweight quad-dominant option if the leg extension machine is taken.' },
       { name: 'Hack Squat (higher reps, light)', reason: 'Already in today’s session — bump reps and lighten the load instead of a new station.' },
     ],
-    'wed-close-grip-dumbbell-press': [
-      { name: 'EZ-Bar Close Grip Press', reason: 'Barbell option with a fixed path if the dumbbells you need are taken.' },
-      { name: 'Diamond Push-Up', reason: 'No equipment needed at all — scale reps to match difficulty.' },
-    ],
     'thu-machine-shoulder-press': [
       { name: 'Seated Dumbbell Shoulder Press (light)', reason: 'Same pattern with free weights if the machine is taken — keep the load conservative.' },
       { name: 'Low-Incline Dumbbell Press (light)', reason: 'Front-delt and upper-chest work with no overhead position if the shoulder is grumbling.' },
@@ -665,29 +661,20 @@
     render();
   }
 
-  // Previous weight/reps for a set, used as input placeholders. Checks this
-  // exercise's own history first, then any older keys in `historyKeys`
-  // (exercises that were cut and came back under a new id). Skips sessions
-  // where only reps were logged, and if this set number was never logged
-  // (e.g. a newly added 4th set) falls back to the last set of that session.
-  // The most recent earlier session of this exercise, for a quick "last time"
-  // read-out on the card. Prefers sessions with reps logged (a weight typed
-  // with no reps is usually a stray entry), falls back to weight-only.
+  // The most recent earlier session of this exercise with anything logged,
+  // for a quick "last time" read-out on the card.
   function getLastSession(dayId, exId, beforeDate, historyKeys) {
     var dayObj = state.sessions[dayId] || {};
     var keys = [exId].concat(historyKeys || []);
-    var best = null, weightOnly = null;
+    var best = null;
     keys.forEach(function (key) {
       Object.keys(dayObj).forEach(function (d) {
         if (d >= beforeDate || !dayObj[d].ex || !dayObj[d].ex[key]) return;
         var rows = (dayObj[d].ex[key].rows || []).filter(function (r) { return r.w || r.r; });
-        if (!rows.length) return;
-        var cand = { date: d, rows: rows };
-        if (rows.some(function (r) { return r.r; })) { if (!best || d > best.date) best = cand; }
-        else if (!weightOnly || d > weightOnly.date) weightOnly = cand;
+        if (rows.length && (!best || d > best.date)) best = { date: d, rows: rows };
       });
     });
-    return best || weightOnly;
+    return best;
   }
   function formatLastSession(last) {
     var shown = last.rows.slice(0, 6).map(function (r) { return (r.w ? r.w : '—') + (r.r ? '×' + r.r : ''); });
@@ -696,6 +683,11 @@
     return 'Last time (' + label + '): ' + shown.join(' · ');
   }
 
+  // Previous weight/reps for a set, used as input placeholders. Checks this
+  // exercise's own history first, then any older keys in `historyKeys`
+  // (exercises that were cut and came back under a new id). Skips sessions
+  // where only reps were logged, and if this set number was never logged
+  // (e.g. a newly added 4th set) falls back to the last set of that session.
   function getPrevRow(dayId, exId, rowIdx, beforeDate, historyKeys) {
     var dayObj = state.sessions[dayId] || {};
     var keys = [exId].concat(historyKeys || []);
@@ -817,7 +809,7 @@
         h('div', {}, 'v3.2: overhead pressing is physio-cleared, so the chest-ramp and overhead gates are gone — everything below is live from today.'),
         h('div', {}, 'Chest: Pec Deck (3 sets) and Seated Chest Press start now, plus the Cable Fly and 4th Flat DB set already in. About 22 direct chest sets a week.'),
         h('div', {}, 'Shoulders: Seated DB Press goes to 4 sets, Cable Lateral Raise to 4, and a new Machine Shoulder Press on Thursday right behind the incline press — a second overhead hit. Laterals stay 3x a week.'),
-        h('div', {}, 'Arms: Barbell Curl back to 4 sets, Close Grip is now a dumbbell press (27.5kg/hand target), the Thursday finisher stays, and a new Saturday pump (cable curl + straight-bar pushdown) makes three arm hits a week.'),
+        h('div', {}, 'Arms: Barbell Curl back to 4 sets, Close Grip stays a barbell lift (60kg total), the Thursday finisher stays, and a new Saturday pump (cable curl + straight-bar pushdown) makes three arm hits a week.'),
         h('div', {}, 'Intensity: drop sets and last-set-to-failure called out on isolation work; presses take the final set to technical failure with safeties.'),
         h('div', {}, 'Thursday: Single Arm Cable Row moved to Tier 2 to make room. Every card now shows what you lifted last time.'),
         h('div', {}, 'Unchanged: Upper 1 / Upper 2 split, the deload week of 2 Nov (half the sets, same weights), supersets that keep sessions near 70 min, and your legs.'),
