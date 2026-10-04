@@ -135,6 +135,7 @@
   .ex-card { margin-bottom: var(--space-3); }
   .ex-pending { opacity: 0.55; }
   .ex-tags { display: flex; gap: 6px; align-items: center; margin-bottom: 6px; flex-wrap: wrap; }
+  .ex-last { font-size: 12px; margin-top: 6px; color: var(--color-accent-300); font-variant-numeric: tabular-nums; line-height: 1.4; }
   .ex-rule { font-size: 12px; opacity: 0.65; margin-top: 6px; line-height: 1.45; }
   .ex-rule strong { opacity: 0.85; }
   .ex-note { font-size: 12px; opacity: 0.55; margin-top: 4px; line-height: 1.45; font-style: italic; }
@@ -214,10 +215,10 @@
   }
 
   // ---------------------------------------------------------------------
-  // Program data — v3, issued 1 Oct 2026
+  // Program data — v3, issued 4 Oct 2026
   // ---------------------------------------------------------------------
-  var PROGRAM_VERSION = 'v3.1';
-  var PROGRAM_ISSUED = '1 October 2026';
+  var PROGRAM_VERSION = 'v3.2';
+  var PROGRAM_ISSUED = '4 October 2026';
   // New per-set target weights (exd.targets) show as placeholders until you
   // log that exercise on or after this date; after that your own history wins.
   var TARGETS_FROM = '2026-10-02';
@@ -228,15 +229,15 @@
 
   function buildProgram() {
     return [
-      { id: 'mon', label: 'Mon', dow: 1, title: 'Upper 1 — Strength', focus: 'Chest + overhead press priority. Heavy, low-rep pressing while your shoulders are fresh.', added: '20 min incline treadmill after', dayNote: "Oct 2026: your pressing is back near June levels (incline 100kg top set, flat DB 40kg). Chest ramp step 1 is live — 4th Flat DB set. Pec Deck joins from Mon 12 Oct if this week's pressing is twinge-free (otherwise 26 Oct). Flat DB + T-Bar Row are now a superset to keep the session inside ~60 min. Reload rules still apply: two clean, pain-free sessions before any jump, max 10% a week.", exercises: [
-        { name: 'Incline Barbell Press', setsReps: '5 x 5', rest: '2.5-3 min', weight: 'Top 100kg x5, back-off 90kg x5', rule: '+2.5kg to top and back-offs after 2 clean sessions at RIR 2 — next stop 102.5 / 92.5kg', note: 'Warm up: bar x10, 60x5, 80x3, 90x1. June was 105kg — get there in 2.5kg steps, no jumps.', reload: true },
-        { name: 'Seated DB Shoulder Press', setsReps: '3 x 8-10', rest: '90 sec', weight: '30kg/hand, pronated grip', rule: 'Stay at 30kg until 10,10,10 clean and pain-free, then 32.5kg', note: "Stuck at 30kg x 10/9/8 for 4 weeks — normal at a June-level weight in a deficit. Own 3 x 10 before moving. Last Monday you logged reps without weights: fill in both so the tracker can call progression.", reload: true },
+      { id: 'mon', label: 'Mon', dow: 1, title: 'Upper 1 — Strength', focus: 'Chest + overhead press priority. Heavy, low-rep pressing while your shoulders are fresh.', added: '20 min incline treadmill after', dayNote: "Oct 2026: your physio has cleared overhead pressing and your pressing is back near June levels (incline 100kg top set, flat DB 40kg), so the chest ramp is no longer gated — Pec Deck is in from today and the shoulder-press volume goes up. Reload rules still decide every weight jump: two clean, pain-free sessions, max 10% a week. Flat DB + T-Bar Row and Pec Deck + Cable Lateral Raise are supersets to keep this near 75 min. Early sets stay at RIR 1-2; the LAST set of each marked lift goes to failure (safeties set on presses, stop the instant the shoulder pinches).", exercises: [
+        { name: 'Incline Barbell Press', setsReps: '5 x 5', rest: '2.5-3 min', weight: 'Top 100kg x5, back-off 90kg x5', rule: '+2.5kg to top and back-offs after 2 clean sessions at RIR 2 — next stop 102.5 / 92.5kg', note: 'Warm up: bar x10, 60x5, 80x3, 90x1. June was 105kg — get there in 2.5kg steps, no jumps. Final back-off set: AMRAP to technical failure with the safeties set.', reload: true },
+        { name: 'Seated DB Shoulder Press', setsReps: '4 x 8-10', rest: '2 min', weight: '30kg/hand, pronated grip', rule: 'Stay at 30kg until 10,10,10,10 clean and pain-free, then 32.5kg', note: 'Overhead pressing is physio-cleared. 4th set added — shoulders are the slow part, and you have been stuck at 30kg x 10/9/8 for weeks, so volume and consistency are the lever, not a jump. Last set to technical failure while it stays pain-free. Once 32.5kg x10,10,10 lands, standing DB press and barbell OHP are open — change one thing at a time. Log weight AND reps on every set so the tracker can call progression.', reload: true },
         { targets: ['22.5','17.5'], name: 'Weighted Pull-Ups', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top +22.5kg, back-off +17.5kg', rule: '+2.5kg once all 4 sets hit 8', note: "8 weeks at +20 x8 / +15 x8 — that's a stall from never adding load. Bump it now, accept 6-7 reps at first, build back to 8." },
-        { name: 'Flat Dumbbell Press', setsReps: '4 x 8-10', rest: '90 sec', weight: '40kg/hand', rule: '+2.5kg/hand once 10 on all 4 sets, pain-free — June was 42.5kg', note: '4th set added (chest ramp step 1).', reload: true, superset: 'Superset with Chest Supported Row — press, 60 sec, row, 60 sec. 4th press set on its own.' },
+        { name: 'Flat Dumbbell Press', setsReps: '4 x 8-10', rest: '90 sec', weight: '40kg/hand', rule: '+2.5kg/hand once 10 on all 4 sets, pain-free — June was 42.5kg', note: '4th set added for chest. Last set is a drop set: failure, strip about 25% off each dumbbell, rep out again.', reload: true, superset: 'Superset with Chest Supported Row — press, 60 sec, row, 60 sec. 4th press set on its own.' },
         { name: 'Chest Supported Row (T-Bar)', setsReps: '3 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5kg once all 3 sets hit 10', note: 'Squeeze 1 sec at the top of each rep.', superset: 'Superset with Flat Dumbbell Press.' },
-        { name: 'Pec Deck', phaseStart: '2026-10-12', history: ['mon-3'], setsReps: '2 x 12-15', rest: '60 sec', weight: '35kg (last logged, Aug)', rule: '+5kg once 15,15 clean', note: 'Chest ramp step 2 — starts Mon 12 Oct if Mon 5 and Thu 8 Oct pressing were twinge-free; otherwise wait until Mon 26 Oct. Last set to 0-1 RIR. Stop the stretch where you feel the pec, not the front of the shoulder.' },
-        { targets: ['12.5'], name: 'Cable Lateral Raise', setsReps: '3 x 12-15', rest: '60 sec', weight: '12.5kg', rule: '+2.5kg once 15 clean on all 3 sets', note: 'Up from 10kg (you hit 15,15,15 in August). Last set to 0-1 RIR. Lead with the elbow, stop at shoulder height, thumbs neutral.', superset: 'Superset with Hanging Leg Raise — alternate straight through, 60 sec between rounds.' },
-        { name: 'Hanging Leg Raise', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight', rule: 'Add ankle weight once 12 strict reps x3 is easy', note: 'Control the descent, no swinging.', superset: 'Superset with Cable Lateral Raise.' },
+        { name: 'Pec Deck', history: ['mon-3'], setsReps: '3 x 12-15', rest: '60 sec', weight: '35kg', rule: '+5kg once 15,15,15 clean', note: 'Live now — the 12 Oct gate is gone with the physio clearance. Back from August (35kg x15). Stop the stretch where you feel the pec, not the front of the shoulder. Last set: drop 10kg, then 10kg again, to failure.', superset: 'Superset with Cable Lateral Raise — alternate for 3 rounds.' },
+        { targets: ['12.5'], name: 'Cable Lateral Raise', setsReps: '4 x 12-15', rest: '60 sec', weight: '12.5kg', rule: '+2.5kg once 15 clean on all sets', note: 'Up from 10kg (you hit 15,15,15 in August). 4th set added — delts are the slow part. Lead with the elbow, stop at shoulder height, thumbs neutral. The 4th set goes solo as a double drop to failure.', superset: 'Superset with Pec Deck for 3 rounds — the 4th set goes solo.' },
+        { name: 'Hanging Leg Raise', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight', rule: 'Add ankle weight once 12 strict reps x3 is easy', note: 'Control the descent, no swinging.' },
         { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Face Pull', setsReps: '3 x 15', rest: '45 sec', weight: '20kg', rule: 'Reps and quality before load.', note: 'Cheap cuff insurance on your overhead press day.' },
       ], tier2Note: 'Spend spare time in order: a full 3 min rest on incline and pull-up top sets first, then face pulls.' },
 
@@ -251,9 +252,9 @@
         { tier: 2, name: 'Back Extension', setsReps: '3 x 12', rest: '60 sec', weight: 'Bodyweight -> light plate', rule: 'Add a plate once 12 controlled reps x3 is easy', note: 'Squeeze at the top, no hyperextension.' },
       ], tier2Note: 'Full rest on the heavy sets first, then the extras. If the session felt heavy, stop.' },
 
-      { id: 'wed', label: 'Wed', dow: 3, title: 'Arms', focus: 'Main arm session. Your second, lighter arm hit is now the Thursday finisher — no extra volume here.', added: null, dayNote: null, exercises: [
-        { targets: ['40','32.5'], name: 'Barbell Curl', setsReps: '3 x 6-8', rest: '2 min', weight: 'Top 40kg, back-off 32.5kg', rule: '+2.5kg to top set once 8 clean twice — build back toward 50kg', note: 'Your 30kg back-offs are easy 8s — close the gap to the top set. Strict, no torso swing (elbow-prone lift).' },
-        { targets: ['60'], name: 'Close Grip Bench Press', setsReps: '3 x 6-8', rest: '2 min', weight: '60kg (total bar weight)', rule: '+2.5kg once 8,8,8 hit', note: 'Your log jumped from 25 to 60 on 30 Sep with no reps entered. Log total bar weight from now on so progression tracks.' },
+      { id: 'wed', label: 'Wed', dow: 3, title: 'Arms', focus: 'Main arm session — heavy compound first, then supersets to failure. With the Thursday finisher and the Saturday pump that is three arm hits a week.', added: null, dayNote: null, exercises: [
+        { targets: ['40','32.5'], name: 'Barbell Curl', setsReps: '4 x 6-8', rest: '2 min', weight: 'Top 40kg, back-offs 32.5kg', rule: '+2.5kg to top set once 8 clean twice — build back toward 50kg', note: 'Back to 4 sets — arms are the priority. 40kg x8 for six weeks means the top set has to move. Final back-off set: strip 10kg and rep to failure. Strict, no torso swing — swap to the EZ-bar the moment the elbow talks.' },
+        { history: ['wed-close-grip-bench-press'], targets: ['27.5'], name: 'Close Grip Dumbbell Press', setsReps: '3 x 6-8', rest: '2 min', weight: '25kg/hand', rule: '+2.5kg/hand once 8,8,8 hit', note: 'You press dumbbells here, not the bar. 25kg x 8,8,8 since August with no jump, so 27.5kg/hand is the target. Log the weight per dumbbell (the 30 Sep entry of 60 with no reps is ignored). Elbows tucked, press the dumbbells together at the top. Last set to failure.' },
         { name: 'Incline DB Curl', setsReps: '3 x 10-12', rest: '90 sec', weight: '15kg/hand', rule: '+1-2kg/hand once 12,12,12 hit', note: 'Full stretch at the bottom, control the negative. Last set: to failure, then 3-5 half-reps in the bottom stretch (lengthened partials).', superset: 'Superset with Overhead Cable Extension.' },
         { name: 'Overhead Cable Extension', setsReps: '4 x 10-12', rest: '90 sec', weight: '50kg', rule: '+2.5kg once all 4 sets hit 12', note: 'Ease into the end range — overhead position. Last set: to 0-1 RIR, then 3-5 half-reps in the stretch if the elbow is quiet.', superset: 'Superset with Incline DB Curl.' },
         { name: 'Cable Hammer Curl (rope)', setsReps: '3 x 12-15', rest: '60 sec', weight: '35kg', rule: '+2.5kg once 15,15,15 clean', note: 'Drop-set the final set (drop ~5kg, take it to 0-1 RIR).', superset: 'Superset with Rope Pushdown.' },
@@ -262,12 +263,12 @@
         { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'EZ-Bar Reverse Curl', setsReps: '3 x 12-15', rest: '60 sec', weight: '20kg', rule: 'Reps before load.', note: 'Brachialis/forearm work — supports grip for pull-ups and RDLs.' },
       ], tier2Note: 'Skip on padel days.' },
 
-      { id: 'thu', label: 'Thu', dow: 4, title: 'Upper 2 — Hypertrophy', focus: 'Chest, back, delts at moderate loads — plus a short arms finisher for a 2nd weekly arm hit.', added: '20 min incline treadmill after (skip on padel days)', dayNote: "Chest ramp step 1: Cable Fly is in from 1 Oct. Seated Chest Press joins from Thu 15 Oct if this week's pressing is twinge-free (otherwise 22 Oct). Isolations: last set to 0-1 RIR. Padel tonight? Lift in the morning and keep the lateral drop set at RIR 2 — smashes load the same cuff. No overhead pressing here yet: a 2nd overhead day unlocks once Monday's DB press hits 32.5kg x10,10,10 pain-free.", exercises: [
+      { id: 'thu', label: 'Thu', dow: 4, title: 'Upper 2 — Hypertrophy', focus: 'Chest, back, delts at moderate loads — plus a short arms finisher for a 2nd weekly arm hit.', added: '20 min incline treadmill after (skip on padel days)', dayNote: "Oct 2026: overhead pressing is physio-cleared, so the second overhead press unlocks now — Machine Shoulder Press sits right behind the incline press (shoulders are the slow part). Chest ramp step 2 is live too: Seated Chest Press starts today. New shoulder press: stay at RIR 2 for two weeks, then the last set goes to failure. Padel tonight? Lift in the morning, keep the lateral drop set at RIR 2, and check with your physio before overhead smashes — the underarm serve is fine. Single Arm Cable Row moved to Tier 2 to keep this near 70 min.", exercises: [
         { targets: ['37.5'], name: 'Incline Dumbbell Press', setsReps: '4 x 8-10', rest: '90 sec', weight: '37.5kg/hand', rule: '+2.5kg/hand after 2 sessions of 10 on all 4 sets, pain-free — next 40kg (your June number)', note: '10,10,10,10 at 37.5kg on 1 Oct. One more clean session there, then 40kg.', reload: true },
-        { name: 'Seated Chest Press Machine', phaseStart: '2026-10-15', history: ['thu-2'], setsReps: '3 x 8-10', rest: '90 sec', weight: '65kg (last logged, Aug)', rule: '+5kg once 10,10,10 clean and pain-free for 2 sessions', note: 'Chest ramp step 2 — starts Thu 15 Oct if Mon 5 and Thu 8 Oct pressing were twinge-free; otherwise wait until Thu 22 Oct. Your flat press for the week alongside Monday DBs.', reload: true },
+        { name: 'Machine Shoulder Press', setsReps: '3 x 10-12', rest: '90 sec', weight: 'Start ~40kg — rep 12 at RIR 2', rule: '+2.5-5kg once 12,12,12 clean and pain-free for 2 sessions', note: 'New — your 2nd weekly overhead hit, physio-cleared. Fixed path, so it is safe to push hard later. Weeks 1-2 stay at RIR 2; after that the last set goes to failure. Stop the instant the shoulder pinches. Starting load is an estimate — adjust after set 1.', reload: true },
+        { name: 'Seated Chest Press Machine', history: ['thu-2'], setsReps: '3 x 8-10', rest: '90 sec', weight: '65kg (last logged, Aug)', rule: '+5kg once 10,10,10 clean and pain-free for 2 sessions', note: 'Chest ramp step 2 — live now (physio-cleared). Your flat press for the week alongside Monday DBs. Fixed path, so the last set goes to failure.', reload: true },
         { targets: ['~10/side'], name: 'Cable Fly', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Start ~10kg/side — rep 15 at RIR 2', rule: '+2.5kg/side once 15,15,15 clean', note: 'Mid-height or low-to-high. Last set to 0-1 RIR. Stop the stretch where you feel the pec, not the front delt — any pinching, shorten the range.', superset: 'Superset with Lat Pulldown — fly, 45 sec, pulldown, 60 sec. 4th pulldown set on its own.' },
         { targets: ['60'], name: 'Lat Pulldown / Single-Arm Pulldown', setsReps: '4 x 10-12', rest: '90 sec', weight: '60kg', rule: '+5kg once 12 clean on all 4 sets', note: 'Up from 55kg — 12 on all 4 sets on 10 Sep and 1 Oct. Alternate the two machines week to week.', superset: 'Superset with Cable Fly.' },
-        { targets: ['22.5'], name: 'Single Arm Cable Row', setsReps: '3 x 12', rest: '60 sec', weight: '22.5kg', rule: '+2.5kg once 12,12,12 hit', note: 'Up from 20kg — 12,12,12 on 1 Oct. Full stretch, squeeze at the finish.' },
         { name: 'DB Lateral Raise — Drop Set', setsReps: '3 rounds', rest: '60 sec', weight: '12.5kg -> 8kg -> 5kg', rule: 'Top weight up only once 12 strict reps on all 3 rounds', note: 'Reps slid to 12/10/5 on 1 Oct — stay at 12.5kg, take the full 60 sec, strict. Final drop to failure (RIR 2 on padel days).' },
         { targets: ['10'], name: 'Rear Delt Fly', setsReps: '3 x 15', rest: '45-60 sec', weight: '10kg', rule: '+2.5kg once 15,15,15 clean', note: 'Up from 7.5kg (15,15,15 on 10 Sep). Slight bend, squeeze the shoulder blades.', superset: 'Giant set with Face Pull + Band External Rotation — one block, ~6 min.' },
         { name: 'Face Pull', setsReps: '3 x 15', rest: '45-60 sec', weight: '20kg', rule: 'Reps and quality before load.', note: 'Pull to the forehead, external rotation at the top.', superset: 'Giant set with Rear Delt Fly + Band External Rotation.' },
@@ -275,8 +276,9 @@
         { targets: ['start light'], section: 'ARMS FINISHER', name: 'Preacher Curl Machine', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Start moderate — rep 12 at RIR 2', rule: 'Add one plate once 12,12,12 clean', note: 'Second weekly biceps hit. Fixed path is kinder to the elbow. Last set to 0-1 RIR, no bouncing out of the bottom.', superset: 'Superset with Seated Triceps Machine.' },
         { targets: ['start light'], name: 'Seated Triceps Machine', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Start moderate — rep 15 at RIR 2', rule: 'Add one plate once 15,15,15 clean', note: 'Second weekly triceps hit. Elbows tucked, full lockout. Last set to 0-1 RIR.', superset: 'Superset with Preacher Curl Machine.' },
         { section: 'TIER 2 — IF TIME ALLOWS', tier: 2, name: 'Chest-Supported Row — wide, high elbow', setsReps: '3 x 12-15', rest: '60 sec', weight: 'Moderate', rule: '+5kg once 15 clean on all 3 sets', note: 'Elbows ~70°, pull to the upper ribs — upper back and rear delt.' },
+        { tier: 2, targets: ['22.5'], name: 'Single Arm Cable Row', setsReps: '3 x 12', rest: '60 sec', weight: '22.5kg', rule: '+2.5kg once 12,12,12 hit', note: 'Up from 20kg — 12,12,12 on 1 Oct. Full stretch, squeeze at the finish.' },
         { tier: 2, name: 'Ab Wheel', setsReps: '3 x 10-12', rest: '60 sec', weight: 'Bodyweight', rule: 'Roll out further once 12 controlled reps x3', note: 'Brace hard, no lower back sag.' },
-      ], tier2Note: "Thursday is full now — only add these if you're still under ~60 min after the arms finisher." },
+      ], tier2Note: "Thursday is full now — only add these if you are still under ~65 min after the arms finisher. On padel days skip all three." },
 
       { id: 'fri', label: 'Fri', dow: 5, title: 'Lower Hypertrophy', focus: 'Not shoulder-limited — progress these normally.', added: 'Nothing — cheat dinner tonight', dayNote: null, exercises: [
         { name: 'Hack Squat Machine', setsReps: '4 x 8-10', rest: '90 sec', weight: '70kg', rule: '+5-10kg once 10 clean on all 4 sets', note: 'Knee permitting. Alternate with Booty Builder Hack Squat every other week.' },
@@ -290,12 +292,14 @@
         { tier: 2, name: 'Hip Thrust — 4th set', setsReps: '1 x 10', rest: '90 sec', weight: '100kg', rule: 'Only if the session still feels fresh.', note: 'Drop this first if anything has to go.' },
       ], tier2Note: "Friday carries the least risk from added volume — nothing here touches the shoulder." },
 
-      { id: 'sat', label: 'Sat', dow: 6, title: 'Pull-Ups + Delts + Cuff Prehab', focus: '~45 min, low fatigue. Extra pulling, a 3rd lateral-raise hit, cuff insurance. Swap for a class any week.', added: '20-30 min incline walk after', dayNote: "Standard Saturday: EMOM, laterals, prehab, then an easy incline walk. Class weeks: do the class (mobility, pilates, spin — no HIIT, nothing overhead) and keep just the 10-min prehab block. Stay well short of failure — Monday is your heaviest upper day.", exercises: [
+      { id: 'sat', label: 'Sat', dow: 6, title: 'Pull-Ups, Delts, Arms + Cuff Prehab', focus: '~45 min core, about 55 with the arm pump. Low fatigue — Monday is your heaviest day.', added: '20-30 min incline walk after', dayNote: "Standard Saturday: EMOM, laterals, cuff prehab, then the arm pump — a third arm hit with light, high-rep, constant-tension work (stop a rep short of failure, except the drop on the last set) and 48 hours before Monday. Class weeks: do the class (mobility, pilates, spin — no HIIT, nothing overhead) and keep just the 10-min prehab block. Skip the pump after a brutal leg day.", exercises: [
         { name: 'Pull-Up EMOM', setsReps: '5 reps every 60 sec x 12 rounds', rest: 'remainder of the minute', weight: 'Bodyweight', rule: 'Add 2 rounds (max 20) once every round feels easy (RIR 4+) for 2 straight weeks', note: 'Cut from 20 to 12 rounds while you build the Saturday habit. Alternate neutral/mixed grip week to week.', targetOverride: { sets: 12, reps: 5 } },
         { targets: ['10'], name: 'Cable Lateral Raise', setsReps: '3 x 15-20', rest: '45 sec', weight: '10kg', rule: '+2.5kg once 20,20,20 clean', note: 'Third weekly side-delt hit — lighter and higher-rep than Monday. Delts recover fast; frequency beats piling sets into one day.' },
         { name: 'Band External Rotation', setsReps: '3 x 15 /arm', rest: '30 sec', weight: 'Light band', rule: 'Quality only — never load heavy.', note: 'Elbow at the ribs, slow both directions.' },
         { name: 'Face Pull', setsReps: '3 x 15-20', rest: '30 sec', weight: '20kg', rule: 'Reps before load.', note: 'External rotation at the top of every rep.' },
         { name: 'Scapular Wall Slide', setsReps: '2 x 10', rest: '30 sec', weight: 'Bodyweight', rule: 'Range before anything else.', note: 'Lower back flat to the wall, wrists in contact throughout.' },
+        { section: 'ARM PUMP', targets: ['20'], name: 'Cable Curl', setsReps: '3 x 12-15', rest: '45 sec', weight: '20-25kg', rule: '+2.5kg once 15,15,15 clean', note: 'Third weekly biceps hit — light, high reps, constant tension. Last set: drop the weight and run to failure. Starting load is an estimate; adjust after set 1.', superset: 'Superset with Straight Bar Pushdown for 3 rounds.' },
+        { name: 'Straight Bar Pushdown', setsReps: '3 x 12-15', rest: '45 sec', weight: '30-35kg', rule: '+2.5kg once 15,15,15 clean', note: 'Third weekly triceps hit. Elbows pinned to the ribs. Last set: drop the weight and run to failure. Starting load is an estimate; adjust after set 1.', superset: 'Superset with Cable Curl for 3 rounds.' },
       ] },
     ];
   }
@@ -485,6 +489,22 @@
       { name: 'Sissy Squat', reason: 'Bodyweight quad-dominant option if the leg extension machine is taken.' },
       { name: 'Hack Squat (higher reps, light)', reason: 'Already in today’s session — bump reps and lighten the load instead of a new station.' },
     ],
+    'wed-close-grip-dumbbell-press': [
+      { name: 'EZ-Bar Close Grip Press', reason: 'Barbell option with a fixed path if the dumbbells you need are taken.' },
+      { name: 'Diamond Push-Up', reason: 'No equipment needed at all — scale reps to match difficulty.' },
+    ],
+    'thu-machine-shoulder-press': [
+      { name: 'Seated Dumbbell Shoulder Press (light)', reason: 'Same pattern with free weights if the machine is taken — keep the load conservative.' },
+      { name: 'Low-Incline Dumbbell Press (light)', reason: 'Front-delt and upper-chest work with no overhead position if the shoulder is grumbling.' },
+    ],
+    'sat-cable-curl': [
+      { name: 'Dumbbell Curl', reason: 'No cable station needed.' },
+      { name: 'EZ-Bar Curl', reason: 'Fixed-path option if the cable stack is busy.' },
+    ],
+    'sat-straight-bar-pushdown': [
+      { name: 'Rope Pushdown', reason: 'Same station, different attachment if the bar is in use.' },
+      { name: 'Single-Arm Cable Pushdown', reason: 'Lets you check each side independently.' },
+    ],
     'sat-pull-up-emom': [
       { name: 'Lat Pulldown EMOM', reason: 'Same rep/rest structure if the pull-up bar is occupied or your grip is cooked from Monday.' },
       { name: 'Ring Row EMOM', reason: 'Bodyweight, easier to scale down mid-set if needed.' },
@@ -650,6 +670,32 @@
   // (exercises that were cut and came back under a new id). Skips sessions
   // where only reps were logged, and if this set number was never logged
   // (e.g. a newly added 4th set) falls back to the last set of that session.
+  // The most recent earlier session of this exercise, for a quick "last time"
+  // read-out on the card. Prefers sessions with reps logged (a weight typed
+  // with no reps is usually a stray entry), falls back to weight-only.
+  function getLastSession(dayId, exId, beforeDate, historyKeys) {
+    var dayObj = state.sessions[dayId] || {};
+    var keys = [exId].concat(historyKeys || []);
+    var best = null, weightOnly = null;
+    keys.forEach(function (key) {
+      Object.keys(dayObj).forEach(function (d) {
+        if (d >= beforeDate || !dayObj[d].ex || !dayObj[d].ex[key]) return;
+        var rows = (dayObj[d].ex[key].rows || []).filter(function (r) { return r.w || r.r; });
+        if (!rows.length) return;
+        var cand = { date: d, rows: rows };
+        if (rows.some(function (r) { return r.r; })) { if (!best || d > best.date) best = cand; }
+        else if (!weightOnly || d > weightOnly.date) weightOnly = cand;
+      });
+    });
+    return best || weightOnly;
+  }
+  function formatLastSession(last) {
+    var shown = last.rows.slice(0, 6).map(function (r) { return (r.w ? r.w : '—') + (r.r ? '×' + r.r : ''); });
+    if (last.rows.length > 6) shown.push('+' + (last.rows.length - 6) + ' more');
+    var label = new Date(last.date + 'T00:00:00').toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+    return 'Last time (' + label + '): ' + shown.join(' · ');
+  }
+
   function getPrevRow(dayId, exId, rowIdx, beforeDate, historyKeys) {
     var dayObj = state.sessions[dayId] || {};
     var keys = [exId].concat(historyKeys || []);
@@ -741,13 +787,14 @@
       h('span', { class: 'protocol-toggle' }, state.showProtocol ? 'Hide' : 'Show rules'),
     ]);
     protoCard.appendChild(protoHead);
-    protoCard.appendChild(h('div', { class: 'card-body' }, 'Applies to every incline/flat/overhead press in the program — starting loads are intentionally 15-30% under last logged numbers.'));
+    protoCard.appendChild(h('div', { class: 'card-body' }, 'Applies to every pressing movement tagged Reload. Your physio has cleared overhead pressing, so these rules — not a calendar gate — decide when the weight goes up.'));
     if (state.showProtocol) {
       var rules = h('div', { class: 'protocol-rules' }, [
         h('div', {}, 'Pressing: progress only when the full rep target is hit at RIR 1-2 with no pain, for two sessions in a row at that weight.'),
         h('div', {}, 'A twinge that fades within the set: note it and hold the weight next session. Pain that lingers after the session, or any pinching: drop 10% and hold two sessions before retrying.'),
         h('div', {}, 'Load increases are capped at 10% per week regardless of how good a session feels.'),
         h('div', {}, 'Isolation work (flyes, laterals, curls, pushdowns, machines): last set to 0-1 RIR. Pressing stays at RIR 1-2.'),
+        h('div', {}, 'Training to failure: only the LAST set, and only once the earlier sets were clean. Machines, cables and isolation can go to failure from day one; barbell and dumbbell presses with the safeties set (or a spotter), stopping the instant the shoulder pinches — pain beats failure.'),
         h('div', {}, 'Deload week of 2 Nov: half the sets, same weights. Then every 6-8 weeks, or sooner if joints or sleep start complaining.'),
       ]);
       var tagLine = h('div', { style: { opacity: 0.7 } });
@@ -764,17 +811,16 @@
       h('div', { class: 'card-title' }, 'What changed in ' + PROGRAM_VERSION),
       h('span', { class: 'protocol-toggle' }, state.showChangelog ? 'Hide' : 'Show changes'),
     ]));
-    changeCard.appendChild(h('div', { class: 'card-body' }, 'Issued ' + PROGRAM_ISSUED + ' — pressing is back near June levels, so the program now trains for maximum muscle — more chest, delts and arms, harder isolation sets — with your joints as the only brake.'));
+    changeCard.appendChild(h('div', { class: 'card-body' }, 'Issued ' + PROGRAM_ISSUED + ' — your physio has cleared overhead pressing, so the chest and shoulder gates are gone and more chest, shoulder and arm work goes in today.'));
     if (state.showChangelog) {
       changeCard.appendChild(h('div', { class: 'protocol-rules' }, [
-        h('div', {}, 'v3.1: built for maximum muscle, with joints as the only brake. Isolation last sets to 0-1 RIR, lengthened partials on arms and calves, chest ramp step 2 pulled forward to 12/15 Oct if this week is twinge-free, first deload week of 2 Nov.'),
-        h('div', {}, 'Mon and Thu are now Upper 1 (strength) and Upper 2 (hypertrophy). Every weight guide is refreshed to your last logged numbers.'),
-        h('div', {}, 'Chest ramp step 1 (now): 4th Flat DB set on Mon, Cable Fly on Thu. Step 2 (Mon 12 / Thu 15 Oct if this week is twinge-free, otherwise 22/26 Oct): Pec Deck on Mon, Seated Chest Press on Thu. About 20 chest sets a week.'),
-        h('div', {}, 'Shoulders: lateral raises now 3x a week (Mon, Thu, Sat). A 2nd overhead press day unlocks once Monday DB press hits 32.5kg x10,10,10 pain-free.'),
-        h('div', {}, 'Arms: a 2nd weekly hit as a short Thursday finisher (preacher curl machine + seated triceps machine) instead of a 2nd arm day.'),
-        h('div', {}, 'Weighted pull-ups bumped to +22.5 / +17.5kg after 8 weeks at the same load.'),
-        h('div', {}, 'Supersets: Flat DB + T-Bar Row (Mon), Cable Fly + Pulldown (Thu) keep both upper days at ~60 min of training.'),
-        h('div', {}, 'Saturday: 12-round pull-up EMOM, lateral raises, cuff prehab and a walk — or a class on weeks you want variety.'),
+        h('div', {}, 'v3.2: overhead pressing is physio-cleared, so the chest-ramp and overhead gates are gone — everything below is live from today.'),
+        h('div', {}, 'Chest: Pec Deck (3 sets) and Seated Chest Press start now, plus the Cable Fly and 4th Flat DB set already in. About 22 direct chest sets a week.'),
+        h('div', {}, 'Shoulders: Seated DB Press goes to 4 sets, Cable Lateral Raise to 4, and a new Machine Shoulder Press on Thursday right behind the incline press — a second overhead hit. Laterals stay 3x a week.'),
+        h('div', {}, 'Arms: Barbell Curl back to 4 sets, Close Grip is now a dumbbell press (27.5kg/hand target), the Thursday finisher stays, and a new Saturday pump (cable curl + straight-bar pushdown) makes three arm hits a week.'),
+        h('div', {}, 'Intensity: drop sets and last-set-to-failure called out on isolation work; presses take the final set to technical failure with safeties.'),
+        h('div', {}, 'Thursday: Single Arm Cable Row moved to Tier 2 to make room. Every card now shows what you lifted last time.'),
+        h('div', {}, 'Unchanged: Upper 1 / Upper 2 split, the deload week of 2 Nov (half the sets, same weights), supersets that keep sessions near 70 min, and your legs.'),
       ]));
     }
     wrap.appendChild(changeCard);
@@ -914,6 +960,8 @@
       card.appendChild(tags);
       card.appendChild(h('div', { class: 'card-title' }, exd.name));
       card.appendChild(h('div', { class: 'card-meta' }, exd.setsReps + ' · rest ' + exd.rest + ' · ' + exd.weight));
+      var lastSession = getLastSession(day.id, exId, date, exd.history);
+      if (lastSession) card.appendChild(h('div', { class: 'ex-last' }, formatLastSession(lastSession)));
       var ruleEl = h('div', { class: 'ex-rule' });
       ruleEl.appendChild(h('strong', {}, 'Progress: '));
       ruleEl.appendChild(document.createTextNode(exd.rule));
